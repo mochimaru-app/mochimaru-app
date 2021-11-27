@@ -21,36 +21,31 @@
     <div>
       <h4>評価</h4>
       <div class="stars">
-        <input
-          id="review01"
-          type="radio"
-          name="review"
-          value="a"
-        /><label for="review01">★</label>
-        <input
-          id="review02"
-          type="radio"
-          name="review"
-          value="b"
-        /><label for="review02">★</label>
-        <input
-          id="review03"
-          type="radio"
-          name="review"
-          value="c"
-        /><label for="review03">★</label>
-        <input
-          id="review04"
-          type="radio"
-          name="review"
-          value="d"
-        /><label for="review04">★</label>
-        <input
-          id="review05"
-          type="radio"
-          name="review"
-          value="e"
-        /><label for="review05">★</label>
+        <input id="review01" type="radio" name="review" /><label
+          for="review01"
+          @click="setCheckValue(5)"
+          >★</label
+        >
+        <input id="review02" type="radio" name="review" /><label
+          for="review02"
+          @click="setCheckValue(4)"
+          >★</label
+        >
+        <input id="review03" type="radio" name="review" /><label
+          for="review03"
+          @click="setCheckValue(3)"
+          >★</label
+        >
+        <input id="review04" type="radio" name="review" /><label
+          for="review04"
+          @click="setCheckValue(2)"
+          >★</label
+        >
+        <input id="review05" type="radio" name="review" /><label
+          for="review05"
+          @click="setCheckValue(1)"
+          >★</label
+        >
       </div>
     </div>
     <div>
@@ -64,18 +59,19 @@
 export default {
   data() {
     return {
-      postData: [
-        {
-          facility: "",
-          address: "",
-          money: "",
-          recommend: "",
-          checkValue: "",
-        },
-      ],
+      postData: {
+        facility: "",
+        address: "",
+        money: "",
+        recommend: "",
+        checkValue: "",
+      },
     }
   },
   methods: {
+    setCheckValue: function (value) {
+      this.postData.checkValue = value
+    },
     post: function () {
       console.log(this.postData)
     },
