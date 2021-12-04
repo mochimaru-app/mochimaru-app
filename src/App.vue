@@ -11,7 +11,9 @@
 
       <router-link to="/post">Post</router-link> |
 
-      <router-link to="/map">Map</router-link>
+      <router-link to="/map">Map</router-link> |
+
+      <router-link to="/detail">Detail</router-link>
 
     </div>
     <router-view />
