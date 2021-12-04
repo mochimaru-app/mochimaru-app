@@ -75,27 +75,27 @@
       <div class="stars">
         <input id="review01" type="radio" name="review" /><label
           for="review01"
-          @click="setCheckValue(5)"
+          @click="setCheckValue1"
           >★</label
         >
         <input id="review02" type="radio" name="review" /><label
           for="review02"
-          @click="setCheckValue(4)"
+          @click="setCheckValue2"
           >★</label
         >
         <input id="review03" type="radio" name="review" /><label
           for="review03"
-          @click="setCheckValue(3)"
+          @click="setCheckValue3"
           >★</label
         >
         <input id="review04" type="radio" name="review" /><label
           for="review04"
-          @click="setCheckValue(2)"
+          @click="setCheckValue4"
           >★</label
         >
         <input id="review05" type="radio" name="review" /><label
           for="review05"
-          @click="setCheckValue(1)"
+          @click="setCheckValue5"
           >★</label
         >
       </div>
@@ -170,8 +170,21 @@ export default {
           this.setError(error, "画像のアップロードに失敗しました。")
         )
     },
-    setCheckValue: function (value) {
-      this.checkValue = value
+    setCheckValue1: function() {
+      this.checkValue = "★★★★★"
+    },
+    setCheckValue2: function() {
+      this.checkValue = "★★★★☆"
+    },
+    setCheckValue3: function() {
+      this.checkValue = "★★★☆☆"
+    },
+    setCheckValue4: function() {
+      this.checkValue = "★★☆☆☆"
+    },
+    setCheckValue5: function() {
+      this.checkValue = "★☆☆☆☆"
+    
     },
     post: function () {
       console.log(this.facility)
