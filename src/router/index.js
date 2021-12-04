@@ -2,6 +2,7 @@ import Vue from "vue"
 import VueRouter from "vue-router"
 import Home from "../views/Home.vue"
 import Map from "../views/Map.vue"
+import Mypage from "../views/Mypage.vue"
 
 Vue.use(VueRouter)
 
@@ -21,17 +22,19 @@ const routes = [
       import(/* webpackChunkName: "about" */ "../views/About.vue"),
   },
   {
-
     path: "/post",
     name: "Post",
-    component: () =>
-      import("../views/Post.vue"),
-  }, 
+    component: () => import("../views/Post.vue"),
+  },
   {
     path: "/map",
     name: "Map",
     component: Map,
-
+  },
+  {
+    path: "/mypage",
+    name: "Mypage",
+    component: Mypage,
   },
 ]
 

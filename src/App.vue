@@ -2,32 +2,31 @@
   <div id="app">
     <div id="nav">
       <router-link to="/">Home</router-link> |
-      
+
       <router-link to="/BeforeSignIn">Before</router-link> |
-      
+
       <router-link to="/AfterSignIn">After</router-link> |
 
       <router-link to="/about">About</router-link> |
 
       <router-link to="/post">Post</router-link> |
 
-      <router-link to="/map">Map</router-link>
+      <router-link to="/map">Map</router-link> |
 
+      <router-link to="/mypage">Mypage</router-link>
     </div>
     <router-view />
-    <div v-if="isLoggin"> している
+    <div v-if="isLoggin">している
       <button @click="logOut">ログアウト</button>
     </div>
-    <div v-else> してない
+    <div v-else>してない
       <button @click="login">ログイン</button>
-      
+
       <!-- <div class="signed-in-user-profile" v-if="user">
       <div>ようこそ{{user.displayName}}</div>
       </div>
       <div v-else>No User Signed In</div> -->
     </div>
-
-
   </div>
 </template>
 
