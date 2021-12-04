@@ -23,27 +23,27 @@
       <div class="stars">
         <input id="review01" type="radio" name="review" /><label
           for="review01"
-          @click="setCheckValue(5)"
+          @click="setCheckValue1"
           >★</label
         >
         <input id="review02" type="radio" name="review" /><label
           for="review02"
-          @click="setCheckValue(4)"
+          @click="setCheckValue2"
           >★</label
         >
         <input id="review03" type="radio" name="review" /><label
           for="review03"
-          @click="setCheckValue(3)"
+          @click="setCheckValue3"
           >★</label
         >
         <input id="review04" type="radio" name="review" /><label
           for="review04"
-          @click="setCheckValue(2)"
+          @click="setCheckValue4"
           >★</label
         >
         <input id="review05" type="radio" name="review" /><label
           for="review05"
-          @click="setCheckValue(1)"
+          @click="setCheckValue5"
           >★</label
         >
       </div>
@@ -65,12 +65,30 @@ export default {
         money: "",
         recommend: "",
         checkValue: "",
+        userId: "",
+        lat: "",
+        lng: "",
       },
     }
   },
   methods: {
-    setCheckValue: function (value) {
-      this.postData.checkValue = value
+    // setCheckValue: function (value) {
+    //   this.postData.checkValue = value
+    // },
+    setCheckValue1: function() {
+      this.postData.checkValue = "★★★★★"
+    },
+    setCheckValue2: function() {
+      this.postData.checkValue = "★★★★☆"
+    },
+    setCheckValue3: function() {
+      this.postData.checkValue = "★★★☆☆"
+    },
+    setCheckValue4: function() {
+      this.postData.checkValue = "★★☆☆☆"
+    },
+    setCheckValue5: function() {
+      this.postData.checkValue = "★☆☆☆☆"
     },
     post: function () {
       console.log(this.postData)
