@@ -2,6 +2,7 @@ import Vue from "vue"
 import VueRouter from "vue-router"
 import Home from "../views/Home.vue"
 import Map from "../views/Map.vue"
+import Mypage from "../views/Mypage.vue"
 
 Vue.use(VueRouter)
 
@@ -34,6 +35,11 @@ const routes = [
     path: "/detail/:id",
     name: "Detail",
     component: () => import("../views/Detail.vue"),
+  },
+  {
+    path: "/mypage",
+    name: "Mypage",
+    component: Mypage,
   },
 ]
 
