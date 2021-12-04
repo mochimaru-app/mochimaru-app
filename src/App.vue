@@ -3,15 +3,14 @@
     <div id="nav">
       <router-link to="/">Home</router-link> |
 
-      <router-link to="/BeforeSignIn">Before</router-link> |
-
-      <router-link to="/AfterSignIn">After</router-link> |
-
       <router-link to="/about">About</router-link> |
 
       <router-link to="/post">Post</router-link> |
 
       <router-link to="/map">Map</router-link> |
+
+      <router-link to="/detail">Detail</router-link>
+
 
       <router-link to="/mypage">Mypage</router-link>
     </div>

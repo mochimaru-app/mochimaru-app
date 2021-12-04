@@ -32,6 +32,11 @@ const routes = [
     component: Map,
   },
   {
+    path: "/detail/:id",
+    name: "Detail",
+    component: () => import("../views/Detail.vue"),
+  },
+  {
     path: "/mypage",
     name: "Mypage",
     component: Mypage,
