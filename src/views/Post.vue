@@ -50,7 +50,7 @@
     </div>
     <div>
       <h4>map</h4>
-      <input type="text" v-model="mapAddress" />
+      <input class="search-input" type="text" v-model="mapAddress" />
       <button type="button" @click="mapSearch">検索</button>
       <div>
         緯度：<input type="text" v-model="postData.lat" ref="lat" />
@@ -118,18 +118,12 @@ export default {
               this.marker,
               "dragend",
               function (ev) {
-                console.log(ev.latLng.lat())
-                console.log(ev.latLng.lng())
                 const lat = ev.latLng.lat()
                 const lng = ev.latLng.lng()
                 // イベントの引数evの、プロパティ.latLngが緯度経度
-                console.log(lat)
-                console.log(lng)
-                this.$ref.lat.value = lat
-                this.$ref.lng.value = lng
-                // this.postData.lat = lat
-                // this.postData.lng = lng
-              }
+                this.postData.lat = lat
+                this.postData.lng = lng
+              }.bind(this)
             )
           }
         }
@@ -162,7 +156,13 @@ export default {
 .stars input[type="radio"]:checked ~ label {
   color: #f8c601;
 }
+.search-input {
+  width: 400px;
+  margin-bottom: 20px;
+}
 #map {
   margin: 0px auto;
+  margin-top: 20px;
+  margin-bottom: 60px;
 }
 </style>
