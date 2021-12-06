@@ -101,8 +101,16 @@
       </div>
     </div>
     <div>
-      <h2>map</h2>
+      <h4>map</h4>
+      <input class="search-input" type="text" v-model="mapAddress" />
+      <button type="button" @click="mapSearch">検索</button>
+      <div>
+        緯度：<input type="text" v-model="lat" ref="lat" />
+        経度：<input type="text" v-model="lng" ref="lng" />
+      </div>
+      <div id="map" style="height: 400px; width: 500px"></div>
     </div>
+    
     <button v-on:click="post">投稿！</button>
 
     <h2><br /><br />一覧</h2>
@@ -131,8 +139,9 @@
 </template>
 
 <script>
-import firebase from "firebase"
 
+import firebase from "firebase"
+/* global google */
 export default {
   data() {
     return {
@@ -145,8 +154,22 @@ export default {
       recommend: "",
       checkValue: "",
       picture: "",
+      lat: 0,
+      lng: 0,
+      map: null,
+      marker: null,
+      geocoder: null,
+      mapAddress: "",
+      aft: false,
       postDatas: [],
     }
+  },
+  mounted() {
+    this.map = new google.maps.Map(document.getElementById("map"), {
+      center: { lat: 35.6803997, lng: 139.7690174 },
+      zoom: 12,
+    })
+    this.geocoder = new google.maps.Geocoder()
   },
   methods: {
     setError(error, text) {
@@ -185,6 +208,40 @@ export default {
     setCheckValue5: function() {
       this.checkValue = "★☆☆☆☆"
     
+    },
+    mapSearch() {
+      this.geocoder.geocode(
+        {
+          address: this.mapAddress,
+        },
+        (results, status) => {
+          if (status === google.maps.GeocoderStatus.OK) {
+            if (this.aft === true) {
+              this.marker.setMap(null)
+            }
+            this.map.setCenter(results[0].geometry.location)
+            this.marker = new google.maps.Marker({
+              map: this.map,
+              position: results[0].geometry.location,
+              draggable: true,
+            })
+            this.lat = results[0].geometry.location.lat()
+            this.lng = results[0].geometry.location.lng()
+            this.aft = true
+            // マーカーのドロップ（ドラッグ終了）時のイベント
+            google.maps.event.addListener(
+              this.marker,
+              "dragend",
+              function (ev) {
+                const lat = ev.latLng.lat()
+                const lng = ev.latLng.lng()
+                this.lat = lat
+                this.lng = lng
+              }.bind(this)
+            )
+          }
+        }
+      )
     },
     post: function () {
       console.log(this.facility)
@@ -263,7 +320,14 @@ export default {
 .stars input[type="radio"]:checked ~ label {
   color: #f8c601;
 }
-
+.search-input {
+  width: 400px;
+  margin-bottom: 20px;
+}
+#map {
+  margin: 0px auto;
+  margin-top: 20px;
+  margin-bottom: 60px;
 .stars_eva {
   color: #f8c601;
 }
