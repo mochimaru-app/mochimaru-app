@@ -105,12 +105,15 @@
       <input class="search-input" type="text" v-model="mapAddress" />
       <button type="button" @click="mapSearch">検索</button>
       <div>
-        緯度：<input type="text" v-model="lat" ref="lat" />
-        経度：<input type="text" v-model="lng" ref="lng" />
+        緯度：<input type="text" v-model="lat" ref="lat" /> 経度：<input
+          type="text"
+          v-model="lng"
+          ref="lng"
+        />
       </div>
       <div id="map" style="height: 400px; width: 500px"></div>
     </div>
-    
+
     <button v-on:click="post">投稿！</button>
 
     <h2><br /><br />一覧</h2>
@@ -139,9 +142,9 @@
 </template>
 
 <script>
-
-import firebase from "firebase"
 /* global google */
+import firebase from "firebase"
+
 export default {
   data() {
     return {
@@ -207,7 +210,7 @@ export default {
     },
     setCheckValue5: function() {
       this.checkValue = "★☆☆☆☆"
-    
+
     },
     mapSearch() {
       this.geocoder.geocode(
@@ -253,6 +256,8 @@ export default {
         recommend: this.recommend,
         checkValue: this.checkValue,
         avatar: this.avatar,
+        lat: this.lat,
+        lng: this.lng,
 
         // checkValue: this.checkValue,
         id: newDoc,
@@ -263,7 +268,9 @@ export default {
         this.facility !== "" &&
         this.address !== "" &&
         this.money !== "" &&
-        this.recommend !== ""
+        this.recommend !== "" &&
+        this.lat !== "" &&
+        this.lng !== ""
         // this.checkValue !== ""
       ) {
         firebase.firestore().collection("post").doc(newDoc).set(comment)
@@ -275,6 +282,8 @@ export default {
         this.recommend = ""
         this.checkValue = ""
         this.avatar = ""
+        this.lat = ""
+        this.lng = ""
       }
     },
     deleteButton: function (index) {
@@ -328,6 +337,7 @@ export default {
   margin: 0px auto;
   margin-top: 20px;
   margin-bottom: 60px;
+}
 .stars_eva {
   color: #f8c601;
 }
