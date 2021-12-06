@@ -328,6 +328,7 @@ export default {
   margin: 0px auto;
   margin-top: 20px;
   margin-bottom: 60px;
+}
 .stars_eva {
   color: #f8c601;
 }
