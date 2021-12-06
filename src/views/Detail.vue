@@ -1,20 +1,18 @@
 <template>
   <div class="main">
-    <h1>施設名</h1>
-    <h2>★★★★★</h2>
+    <h1>施設名: {{ postDatas.facility }}</h1>
+    <h2>{{ postDatas.checkValue }}</h2>
 
     <div class="sub-main">
       <div class="left">
         <h3>所在地</h3>
-        <p>～県～市～町～番目</p>
+        <p>{{ postDatas.adress }}</p>
 
         <h3>金額</h3>
-        <p>10,000</p>
+        <p>{{ postDatas.money }}</p>
 
         <h3>オススメポイント</h3>
-        <p>
-          あれとそれとこれが良かった！けど、あそことそことここがイマイチ、、
-        </p>
+        <p>{{ postDatas.recommend }}</p>
       </div>
       <div class="right">
         <button>画像</button>
@@ -31,11 +29,36 @@
 </template>
 
 <script>
+import firebase from "firebase"
+
 export default {
   data() {
     return {
-
+      postDatas: [
+        {
+          adress: "あそこ",
+          facility: "asoko",
+          id: "1",
+          lat: 35.6803997,
+          lng: 139.7690174,
+          checkValue: "★★★★★",
+        },
+      ],
     }
+  },
+  created() {
+    firebase
+      .firestore()
+      .collection("post")
+      .get()
+      .then((snapshot) => {
+        snapshot.docs.forEach((doc) => {
+          this.postDatas.push({
+            id: doc.id,
+            ...doc.data(),
+          })
+        })
+      })
   },
 }
 </script>

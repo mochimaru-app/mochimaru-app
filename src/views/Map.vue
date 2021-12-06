@@ -5,33 +5,22 @@
 </template>
 
 <script>
+import firebase from "firebase"
+
 export default {
   data() {
     return {
       map: "",
       myLatLng: { lat: 35.6803997, lng: 139.7690174 },
       postDatas: [
-        //こんな感じのデータが入る予定
         {
-          facility: "あそこ",
-          adress: "～県～市～町～番目",
-          money: "100",
-          recommend: "なにもない",
+          adress: "あそこ",
+          facility: "asoko",
+          id: "1",
+          lat: 35.6803997,
+          lng: 139.7690174,
           checkValue: "★★★★★",
-          userId: "1",
-          lat: "35.6803997",
-          lng: "139.7690174",
-        },
-        {
-          facility: "あそこ",
-          adress: "～県～市～町～番目",
-          money: "100",
-          recommend: "なにもない",
-          checkValue: "★☆☆☆☆",
-          userId: "2",
-          lat: "35.5803997",
-          lng: "139.6690174",
-        },
+        }
       ],
     }
   },
@@ -53,10 +42,16 @@ export default {
             map: this.map,
           })
           let contentString =
-            '<p>施設名:' + this.postDatas[i].facility + '</p>' +
-            '<p>住所:' + this.postDatas[i].adress + '</p>' +
-            '<p>評価:' + this.postDatas[i].checkValue + '</p>' +
-            '<p>詳細: <a href="../post">' +
+            "<p>施設名:" +
+            this.postDatas[i].facility +
+            "</p>" +
+            "<p>住所:" +
+            this.postDatas[i].adress +
+            "</p>" +
+            "<p>評価:" +
+            this.postDatas[i].checkValue +
+            "</p>" +
+            '<p>詳細: <a href="../detail/' + this.postDatas[i].id + '">' +
             "投稿詳細へ</a> " +
             "</p>"
           markerInfo(markers[i], contentString)
@@ -71,5 +66,19 @@ export default {
       })
     }
   },
+  created() {
+    firebase
+      .firestore()
+      .collection("post")
+      .get()
+      .then(snapshot => {
+        snapshot.docs.forEach(doc => {
+          this.postDatas.push({
+            id: doc.id,
+            ...doc.data()
+          });
+        });
+      });
+  }
 }
 </script>

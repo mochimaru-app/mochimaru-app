@@ -9,9 +9,6 @@
 
       <router-link to="/map">Map</router-link> |
 
-      <router-link to="/detail">Detail</router-link>
-
-
       <router-link to="/mypage">Mypage</router-link>
     </div>
     <router-view />
