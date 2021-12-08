@@ -12,16 +12,7 @@ export default {
     return {
       map: "",
       myLatLng: { lat: 35.6803997, lng: 139.7690174 },
-      postDatas: [
-        {
-          adress: "あそこ",
-          facility: "asoko",
-          id: "1",
-          lat: 35.6803997,
-          lng: 139.7690174,
-          checkValue: "★★★★★",
-        }
-      ],
+      postDatas: [],
     }
   },
   mounted() {
