@@ -137,7 +137,6 @@
       </div>
 
       <div v-for="(postData, index) in postDatas" v-bind:key="index">
-        <div v-if="postData.postUser.includes(this.user.uid)">
           <div v-if="postData.edit != true">
             <!-- == this.currentUser -->
             <span class="answer">時間:</span
@@ -274,7 +273,6 @@
               <button @click="editFirebase(index)">編集！</button>
             </div>
           </div>
-        </div>
         <br />
       </div>
     </div>
@@ -543,9 +541,14 @@ export default {
       .collection("post")
       .get()
       .then((snapshot) => {
-        for (let i = 0; i < snapshot.docs.length; i++) {
-          this.postDatas.push(snapshot.docs[i].data())
-        }
+        snapshot.forEach((doc) => {
+          if (doc.data().postUser === this.user.uid) {
+            console.log(doc.data())
+
+            this.postDatas.push({ ...doc.data() })
+          }
+        })
+        console.log(this.postDatas[0])
       })
     // this.currentUser = this.user.uid
   },
