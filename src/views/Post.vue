@@ -100,29 +100,47 @@
           </div>
         </div>
         <div>
-      <h2>map</h2>
-      <input class="search-input" type="text" v-model="mapAddress" />
-      <button type="button" @click="mapSearch">検索</button>
-      <div>
-        緯度：<input type="text" v-model="lat" ref="lat" /> 経度：<input
-          type="text"
-          v-model="lng"
-          ref="lng"
-        />
-      </div>
-      <div id="map" style="height: 400px; width: 500px"></div>
-    </div>
+          <h2>map</h2>
+          <input class="search-input" type="text" v-model="mapAddress" />
+          <button type="button" @click="mapSearch">検索</button>
+          <div>
+            緯度：<input type="text" v-model="lat" ref="lat" /> 経度：<input
+              type="text"
+              v-model="lng"
+              ref="lng"
+            />
+          </div>
+          <div id="map" style="height: 400px; width: 500px"></div>
+        </div>
 
-    <button v-on:click="post">投稿！</button>
-       
+        <button v-on:click="post">投稿！</button>
       </div>
     </div>
     <div v-if="$route.path == '/mypage'">
-      <h2><br /><br />一覧</h2>
+      <h2>一覧</h2>
+      <div id="feas-sort-menu">
+        <div class="feas-sort-price">
+          <p class="midashi">金額で並び替え</p>
+          <span @click="sort(0)" class="feas-sl-1-up">▲</span>
+          <span @click="sort(1)" class="feas-sl-1-down">▼</span>
+        </div>
+        <div class="feas-sort-star">
+          <p class="midashi">投稿順に並び替え</p>
+          <span @click="sort(2)" class="feas-sl-1-up">▲</span>
+          <span @click="sort(3)" class="feas-sl-1-down">▼</span>
+        </div>
+        <div class="feas-sort-date">
+          <p class="midashi">評価順に並び替え</p>
+          <span @click="sort(4)" class="feas-sl-1-up">▲</span>
+          <button @click="sort(5)" class="feas-sl-1-down">▼</button>
+        </div>
+      </div>
+
       <div v-for="(postData, index) in postDatas" v-bind:key="index">
-        <div v-if="postData.postUser">
           <div v-if="postData.edit != true">
             <!-- == this.currentUser -->
+            <span class="answer">時間:</span
+            >{{ postData.time.toDate().getFullYear() }}<br />
             <span class="answer">施設名:</span>{{ postData.facility }}<br />
             <span class="answer">住所:</span>{{ postData.address }} <br />
             <span class="answer">金額:</span>{{ postData.money }}<br />
@@ -255,8 +273,7 @@
               <button @click="editFirebase(index)">編集！</button>
             </div>
           </div>
-        </div>
-        <br /><br /><br />
+        <br />
       </div>
     </div>
   </div>
@@ -269,6 +286,7 @@ import firebase from "firebase"
 export default {
   data() {
     return {
+      // time: "",
       edit: "false",
       // currentUser:"",
       postUser: "",
@@ -299,6 +317,53 @@ export default {
     this.geocoder = new google.maps.Geocoder()
   },
   methods: {
+    sort(index) {
+      switch (index) {
+        case 0:
+          this.postDatas.sort(function (a, b) {
+            if (a.money < b.money) return 1
+            if (a.money > b.money) return -1
+            return 0
+          })
+          break
+        case 1:
+          this.postDatas.sort(function (a, b) {
+            if (a.money < b.money) return -1
+            if (a.money > b.money) return 1
+            return 0
+          })
+          break
+        case 2:
+          this.postDatas.sort(function (a, b) {
+            if (a.time.seconds < b.time.seconds) return -1
+            if (a.time.seconds > b.time.seconds) return 1
+            return 0
+          })
+          break
+        case 3:
+          this.postDatas.sort(function (a, b) {
+            if (a.time.seconds < b.time.seconds) return 1
+            if (a.time.seconds > b.time.seconds) return -1
+            return 0
+          })
+          break
+        case 4:
+          this.postDatas.sort(function (a, b) {
+            if (a.checkValue < b.checkValue) return 1
+            if (a.checkValue > b.checkValue) return -1
+            return 0
+          })
+          break
+        case 5:
+          this.postDatas.sort(function (a, b) {
+            if (a.checkValue < b.checkValue) return -1
+            if (a.checkValue > b.checkValue) return 1
+            return 0
+          })
+          break
+        default:
+      }
+    },
     setError(error, text) {
       this.error =
         (error.response && error.response.data && error.response.data.error) ||
@@ -372,6 +437,7 @@ export default {
     post: function () {
       console.log(this.user.uid)
       console.log(this.$auth.currentUser.uid)
+      const time = new Date()
       const newDoc = firebase.firestore().collection("post").doc().id
       const comment = {
         facility: this.facility,
@@ -384,11 +450,8 @@ export default {
         edit: this.edit,
         lat: this.lat,
         lng: this.lng,
-
-        // checkValue: this.checkValue,
         id: newDoc,
-        // numberRate: this.changedRate,
-        // password: this.lock__password,
+        time: time,
       }
       if (
         this.facility !== "" &&
@@ -468,7 +531,7 @@ export default {
       //  const getId = this.postDatas[index].id
       // const getPassword = this.thoughts[index].password
       console.log(this.postDatas[index].facility)
-      this.postDatas[index].facility = "え"
+      // this.postDatas[index].facility = "え"
     },
   },
 
@@ -478,9 +541,14 @@ export default {
       .collection("post")
       .get()
       .then((snapshot) => {
-        for (let i = 0; i < snapshot.docs.length; i++) {
-          this.postDatas.push(snapshot.docs[i].data())
-        }
+        snapshot.forEach((doc) => {
+          if (doc.data().postUser === this.user.uid) {
+            console.log(doc.data())
+
+            this.postDatas.push({ ...doc.data() })
+          }
+        })
+        console.log(this.postDatas[0])
       })
     // this.currentUser = this.user.uid
   },
@@ -679,5 +747,39 @@ export default {
     width: 160px;
     font-size: 16px;
   }
+}
+#feas-sort-menu {
+  text-align: center;
+  margin: 1em auto;
+  padding: 1em 0;
+}
+/* id=feas-sort-menu内のすべてのdivタグに適用 */
+#feas-sort-menu div {
+  display: inline-block;
+  width: 20%;
+  text-align: center;
+  border-left: 1px solid #dadee6;
+}
+/* その最初のdivタグのみに適用 */
+#feas-sort-menu div:first-child {
+  border-left: none;
+}
+/* 見出しに適用 */
+#feas-sort-menu p.midashi {
+  display: block;
+  font-weight: bold;
+  color: #5d5d5d;
+  margin-bottom: 0.5em;
+  line-height: 1;
+}
+/* すべてのソートボタンに適用 */
+#feas-sort-menu span {
+  color: white;
+  display: inline-block;
+  width: 3em;
+  height: 2em;
+  background-color: #54bee6;
+  border-radius: 3px;
+  margin: 0 3px;
 }
 </style>

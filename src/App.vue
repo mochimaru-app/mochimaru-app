@@ -95,6 +95,7 @@ export default {
         .then(() => {
           this.isLoggin = false
         })
+      this.$router.push("/about")
     },
   },
  
