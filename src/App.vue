@@ -10,7 +10,8 @@
       <router-link to="/map">Map</router-link> |
 
       <router-link to="/mypage">Mypage</router-link>
-
+    </div>
+    
     <!--ハンバーガーメニューのボタン-->
     <div class="hamburger_btn" v-on:click='ActiveBtn=!ActiveBtn'>
       <span class="line line_01" v-bind:class="{'btn_line01':ActiveBtn}"></span>
