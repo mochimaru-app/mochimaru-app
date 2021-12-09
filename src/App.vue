@@ -27,18 +27,18 @@
     <transition name="menu">
       <div class="menu" v-show="ActiveBtn">
         <ul>
-          <li>
+          <li v-on:click="ActiveBtn = !ActiveBtn">
             <router-link to="/"><i class="fas fa-home"></i> Home</router-link>
           </li>
           <!-- <router-link to="/about">About</router-link> -->
           <!-- <router-link to="/post">Post</router-link> -->
-          <li>
+          <li v-on:click="ActiveBtn = !ActiveBtn">
             <router-link to="/map"
               ><i class="fas fa-map-marker-alt"></i> Map</router-link
             >
           </li>
           <!-- <router-link to="/detail">Detail</router-link> -->
-          <li>
+          <li v-on:click="ActiveBtn = !ActiveBtn">
             <router-link to="/mypage"
               ><i class="fas fa-user-circle"></i> Mypage</router-link
             >
@@ -197,7 +197,6 @@ export default {
   color: rgb(255, 255, 255);
   list-style: none;
   line-height: 1;
-  padding: 1rem;
 }
 .menu {
   background-color: #5bc8ad91;
