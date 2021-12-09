@@ -1,150 +1,295 @@
 <template>
   <div>
-    <h1>Post page</h1>
-    <h3>皆のオススメを投稿して共有しよう！</h3>
-    <div class="Form">
-      <div class="Form-Item">
-        <p class="Form-Item-Label">
-          <span class="Form-Item-Label-Required">必須</span>施設名
-        </p>
-        <input
-          type="text"
-          class="Form-Item-Input"
-          placeholder="例）"
-          v-model="facility"
-        />
-      </div>
-
-      <div class="Form-Item">
-        <p class="Form-Item-Label">
-          <span class="Form-Item-Label-Required">必須</span>住所
-        </p>
-        <input
-          type="text"
-          class="Form-Item-Input"
-          placeholder="例）"
-          v-model="address"
-        />
-      </div>
-
-      <div class="Form-Item">
-        <p class="Form-Item-Label">
-          <span class="Form-Item-Label-Required">必須</span>金額
-        </p>
-        <input
-          type="text"
-          class="Form-Item-Input"
-          placeholder="例）"
-          v-model="money"
-        />
-      </div>
-
-      <div class="Form-Item">
-        <p class="Form-Item-Label">
-          <span class="Form-Item-Label-Required">必須</span>おすすめポイント
-        </p>
-        <input
-          type="text"
-          class="Form-Item-Input"
-          placeholder="例）"
-          v-model="recommend"
-        />
-      </div>
-    </div>
-
-    <div>
-      <h2>画像</h2>
-      <!-- <input type="file" /> -->
-      <p id="error" v-show="error">{{ error }}</p>
-      <label>
-        <div v-if="avatar">
-          <img :src="avatar" alt="Avatar" class="image" />
-        </div>
-        <div>
+    <div v-if="$route.path == '/post'">
+      <h1>Post page</h1>
+      <h3>皆のオススメを投稿して共有しよう！</h3>
+      <div class="Form">
+        <div class="Form-Item">
+          <p class="Form-Item-Label">
+            <span class="Form-Item-Label-Required">必須</span>施設名
+          </p>
           <input
-            type="file"
-            id="avatar_name"
-            accept="image/jpeg, image/png"
-            @change="onImageChange"
+            type="text"
+            class="Form-Item-Input"
+            placeholder="例）"
+            v-model="facility"
           />
         </div>
-      </label>
-    </div>
-    <div>
-      <h2>評価</h2>
-      <div class="stars">
-        <input id="review01" type="radio" name="review" /><label
-          for="review01"
-          @click="setCheckValue1"
-          >★</label
-        >
-        <input id="review02" type="radio" name="review" /><label
-          for="review02"
-          @click="setCheckValue2"
-          >★</label
-        >
-        <input id="review03" type="radio" name="review" /><label
-          for="review03"
-          @click="setCheckValue3"
-          >★</label
-        >
-        <input id="review04" type="radio" name="review" /><label
-          for="review04"
-          @click="setCheckValue4"
-          >★</label
-        >
-        <input id="review05" type="radio" name="review" /><label
-          for="review05"
-          @click="setCheckValue5"
-          >★</label
-        >
-      </div>
-    </div>
-    <div>
-      <h4>map</h4>
-      <input class="search-input" type="text" v-model="mapAddress" />
-      <button type="button" @click="mapSearch">検索</button>
-      <div>
-        緯度：<input type="text" v-model="lat" ref="lat" />
-        経度：<input type="text" v-model="lng" ref="lng" />
-      </div>
-      <div id="map" style="height: 400px; width: 500px"></div>
-    </div>
-    
-    <button v-on:click="post">投稿！</button>
+        <div class="Form-Item">
+          <p class="Form-Item-Label">
+            <span class="Form-Item-Label-Required">必須</span>住所
+          </p>
+          <input
+            type="text"
+            class="Form-Item-Input"
+            placeholder="例）"
+            v-model="address"
+          />
+        </div>
 
-    <h2><br /><br />一覧</h2>
-    <div v-for="(postData, index) in postDatas" v-bind:key="index">
-      <span class="answer">施設名</span>{{ postData.facility }}<br />
-      <span class="answer">住所</span>{{ postData.address }} <br />
-      <span class="answer">金額</span>{{ postData.money }}<br />
-      <span class="answer">おすすめポイント</span>{{ postData.recommend }}<br />
-      <!-- <span class="answer">画像</span>url({{ postData.avatar }})<br /> -->
-      <img v-bind:src="postData.avatar" />
-      <span class="answer"><br />評価</span>
-      <div class="stars_eva">
-        <div v-if="postData.checkValue == 5">★★★★★</div>
-        <div v-else-if="postData.checkValue == 4">★★★★</div>
-        <div v-else-if="postData.checkValue == 3">★★★</div>
-        <div v-else-if="postData.checkValue == 2">★★</div>
-        <div v-else-if="postData.checkValue == 1">★</div>
-        <div v-else class="nostar">★</div>
+        <div class="Form-Item">
+          <p class="Form-Item-Label">
+            <span class="Form-Item-Label-Required">必須</span>金額
+          </p>
+          <input
+            type="text"
+            class="Form-Item-Input"
+            placeholder="例）"
+            v-model="money"
+          />
+        </div>
+
+        <div class="Form-Item">
+          <p class="Form-Item-Label">
+            <span class="Form-Item-Label-Required">必須</span>おすすめポイント
+          </p>
+          <input
+            type="text"
+            class="Form-Item-Textarea"
+            placeholder="例）"
+            v-model="recommend"
+          />
+        </div>
+
+        <div>
+          <h2>画像</h2>
+          <!-- <input type="file" /> -->
+          <p id="error" v-show="error">{{ error }}</p>
+          <label>
+            <div v-if="avatar">
+              <img :src="avatar" alt="Avatar" class="image" />
+            </div>
+            <div>
+              <input
+                type="file"
+                id="avatar_name"
+                accept="image/jpeg, image/png"
+                @change="onImageChange"
+              />
+            </div>
+          </label>
+        </div>
+        <div>
+          <h2>評価</h2>
+          <div class="stars">
+            <input id="review01" type="radio" name="review" /><label
+              for="review01"
+              @click="setCheckValue1"
+              >★</label
+            >
+            <input id="review02" type="radio" name="review" /><label
+              for="review02"
+              @click="setCheckValue2"
+              >★</label
+            >
+            <input id="review03" type="radio" name="review" /><label
+              for="review03"
+              @click="setCheckValue3"
+              >★</label
+            >
+            <input id="review04" type="radio" name="review" /><label
+              for="review04"
+              @click="setCheckValue4"
+              >★</label
+            >
+            <input id="review05" type="radio" name="review" /><label
+              for="review05"
+              @click="setCheckValue5"
+              >★</label
+            >
+          </div>
+        </div>
+        <div>
+          <h2>map</h2>
+          <input class="search-input" type="text" v-model="mapAddress" />
+          <button type="button" @click="mapSearch">検索</button>
+          <div>
+            緯度：<input type="text" v-model="lat" ref="lat" /> 経度：<input
+              type="text"
+              v-model="lng"
+              ref="lng"
+            />
+          </div>
+          <div id="map" style="height: 400px; width: 500px"></div>
+        </div>
+
+        <button v-on:click="post">投稿！</button>
+      </div>
+    </div>
+    <div v-if="$route.path == '/mypage'">
+      <h2>一覧</h2>
+      <div id="feas-sort-menu">
+        <div class="feas-sort-price">
+          <p class="midashi">金額で並び替え</p>
+          <span @click="sort(0)" class="feas-sl-1-up">▲</span>
+          <span @click="sort(1)" class="feas-sl-1-down">▼</span>
+        </div>
+        <div class="feas-sort-star">
+          <p class="midashi">投稿順に並び替え</p>
+          <span @click="sort(2)" class="feas-sl-1-up">▲</span>
+          <span @click="sort(3)" class="feas-sl-1-down">▼</span>
+        </div>
+        <div class="feas-sort-date">
+          <p class="midashi">評価順に並び替え</p>
+          <span @click="sort(4)" class="feas-sl-1-up">▲</span>
+          <button @click="sort(5)" class="feas-sl-1-down">▼</button>
+        </div>
       </div>
 
-      <!-- <div class="border"></div> -->
-      <button class="delete__button" @click="deleteButton(index)">削除</button>
-      <br /><br /><br />
+      <div v-for="(postData, index) in postDatas" v-bind:key="index">
+          <div v-if="postData.edit != true">
+            <!-- == this.currentUser -->
+            <span class="answer">時間:</span
+            >{{ postData.time.toDate().getFullYear() }}<br />
+            <span class="answer">施設名:</span>{{ postData.facility }}<br />
+            <span class="answer">住所:</span>{{ postData.address }} <br />
+            <span class="answer">金額:</span>{{ postData.money }}<br />
+            <span class="answer">おすすめポイント:</span>{{ postData.recommend
+            }}<br />
+            <!-- <span class="answer">画像</span>url({{ postData.avatar }})<br /> -->
+            <div v-if="postData.avatar">
+              <img v-bind:src="postData.avatar" /><br />
+            </div>
+            <span class="answer">評価</span>
+            <div class="stars_eva">
+              <div v-if="postData.checkValue == '★★★★★'">★★★★★</div>
+              <div v-else-if="postData.checkValue == '★★★★'">★★★★</div>
+              <div v-else-if="postData.checkValue == '★★★'">★★★</div>
+              <div v-else-if="postData.checkValue == '★★'">★★</div>
+              <div v-else-if="postData.checkValue == '★'">★</div>
+              <div v-else class="nostar">★</div>
+            </div>
+
+            <!-- <div class="border"></div> -->
+            <button class="delete__button" @click="deleteButton(index)">
+              削除
+            </button>
+            <button class="edit__button" @click="editButton(index)">
+              編集
+            </button>
+          </div>
+          <div v-else>
+            <div class="Form">
+              <div class="Form-Item">
+                <p class="Form-Item-Label">
+                  <span class="Form-Item-Label-Required">必須</span>施設名
+                </p>
+                <input
+                  type="text"
+                  value=""
+                  placeholder=""
+                  name="fa"
+                  v-model="facility"
+                />
+              </div>
+              <div class="Form-Item">
+                <p class="Form-Item-Label">
+                  <span class="Form-Item-Label-Required">必須</span>住所
+                </p>
+                <input
+                  type="text"
+                  class="Form-Item-Input"
+                  placeholder="例）"
+                  v-model="address"
+                />
+              </div>
+
+              <div class="Form-Item">
+                <p class="Form-Item-Label">
+                  <span class="Form-Item-Label-Required">必須</span>金額
+                </p>
+                <input
+                  type="text"
+                  class="Form-Item-Input"
+                  placeholder="例）"
+                  v-model="money"
+                />
+              </div>
+
+              <div class="Form-Item">
+                <p class="Form-Item-Label">
+                  <span class="Form-Item-Label-Required">必須</span
+                  >おすすめポイント
+                </p>
+                <input
+                  type="text"
+                  class="Form-Item-Textarea"
+                  placeholder="例）"
+                  v-model="recommend"
+                />
+              </div>
+
+              <div>
+                <h2>画像</h2>
+                <!-- <input type="file" /> -->
+                <p id="error" v-show="error">{{ error }}</p>
+                <label>
+                  <div v-if="avatar">
+                    <img :src="avatar" alt="Avatar" class="image" />
+                  </div>
+                  <div>
+                    <input
+                      type="file"
+                      id="avatar_name"
+                      accept="image/jpeg, image/png"
+                      @change="onImageChange"
+                    />
+                  </div>
+                </label>
+              </div>
+              <div>
+                <h2>評価</h2>
+                <div class="stars">
+                  <input id="review01" type="radio" name="review" /><label
+                    for="review01"
+                    @click="setCheckValue1"
+                    >★</label
+                  >
+                  <input id="review02" type="radio" name="review" /><label
+                    for="review02"
+                    @click="setCheckValue2"
+                    >★</label
+                  >
+                  <input id="review03" type="radio" name="review" /><label
+                    for="review03"
+                    @click="setCheckValue3"
+                    >★</label
+                  >
+                  <input id="review04" type="radio" name="review" /><label
+                    for="review04"
+                    @click="setCheckValue4"
+                    >★</label
+                  >
+                  <input id="review05" type="radio" name="review" /><label
+                    for="review05"
+                    @click="setCheckValue5"
+                    >★</label
+                  >
+                </div>
+              </div>
+              <div>
+                <h2>map</h2>
+              </div>
+              <button @click="editFirebase(index)">編集！</button>
+            </div>
+          </div>
+        <br />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-
-import firebase from "firebase"
 /* global google */
+import firebase from "firebase"
+
 export default {
   data() {
     return {
+      // time: "",
+      edit: "false",
+      // currentUser:"",
+      postUser: "",
       avatar: "",
       message: "",
       error: "",
@@ -172,6 +317,53 @@ export default {
     this.geocoder = new google.maps.Geocoder()
   },
   methods: {
+    sort(index) {
+      switch (index) {
+        case 0:
+          this.postDatas.sort(function (a, b) {
+            if (a.money < b.money) return 1
+            if (a.money > b.money) return -1
+            return 0
+          })
+          break
+        case 1:
+          this.postDatas.sort(function (a, b) {
+            if (a.money < b.money) return -1
+            if (a.money > b.money) return 1
+            return 0
+          })
+          break
+        case 2:
+          this.postDatas.sort(function (a, b) {
+            if (a.time.seconds < b.time.seconds) return -1
+            if (a.time.seconds > b.time.seconds) return 1
+            return 0
+          })
+          break
+        case 3:
+          this.postDatas.sort(function (a, b) {
+            if (a.time.seconds < b.time.seconds) return 1
+            if (a.time.seconds > b.time.seconds) return -1
+            return 0
+          })
+          break
+        case 4:
+          this.postDatas.sort(function (a, b) {
+            if (a.checkValue < b.checkValue) return 1
+            if (a.checkValue > b.checkValue) return -1
+            return 0
+          })
+          break
+        case 5:
+          this.postDatas.sort(function (a, b) {
+            if (a.checkValue < b.checkValue) return -1
+            if (a.checkValue > b.checkValue) return 1
+            return 0
+          })
+          break
+        default:
+      }
+    },
     setError(error, text) {
       this.error =
         (error.response && error.response.data && error.response.data.error) ||
@@ -193,21 +385,20 @@ export default {
           this.setError(error, "画像のアップロードに失敗しました。")
         )
     },
-    setCheckValue1: function() {
+    setCheckValue1: function () {
       this.checkValue = "★★★★★"
     },
-    setCheckValue2: function() {
-      this.checkValue = "★★★★☆"
+    setCheckValue2: function () {
+      this.checkValue = "★★★★"
     },
-    setCheckValue3: function() {
-      this.checkValue = "★★★☆☆"
+    setCheckValue3: function () {
+      this.checkValue = "★★★"
     },
-    setCheckValue4: function() {
-      this.checkValue = "★★☆☆☆"
+    setCheckValue4: function () {
+      this.checkValue = "★★"
     },
-    setCheckValue5: function() {
-      this.checkValue = "★☆☆☆☆"
-    
+    setCheckValue5: function () {
+      this.checkValue = "★"
     },
     mapSearch() {
       this.geocoder.geocode(
@@ -244,7 +435,9 @@ export default {
       )
     },
     post: function () {
-      console.log(this.facility)
+      console.log(this.user.uid)
+      console.log(this.$auth.currentUser.uid)
+      const time = new Date()
       const newDoc = firebase.firestore().collection("post").doc().id
       const comment = {
         facility: this.facility,
@@ -253,6 +446,49 @@ export default {
         recommend: this.recommend,
         checkValue: this.checkValue,
         avatar: this.avatar,
+        postUser: this.user.uid,
+        edit: this.edit,
+        lat: this.lat,
+        lng: this.lng,
+        id: newDoc,
+        time: time,
+      }
+      if (
+        this.facility !== "" &&
+        this.address !== "" &&
+        this.money !== "" &&
+        this.recommend !== "" &&
+        this.lat !== "" &&
+        this.lng !== ""
+        // this.checkValue !== ""
+      ) {
+        firebase.firestore().collection("post").doc(newDoc).set(comment)
+        this.id += 1
+        this.postDatas.push(comment)
+        this.postUser = ""
+        this.facility = ""
+        this.address = ""
+        this.money = ""
+        this.recommend = ""
+        this.checkValue = ""
+        this.avatar = ""
+        this.lat = ""
+        this.lng = ""
+      }
+    },
+    editFirebase: function (index) {
+      console.log(this.user.uid)
+      console.log(this.$auth.currentUser.uid)
+      const newDoc = firebase.firestore().collection("post").doc().id
+      const comment = {
+        facility: this.facility,
+        address: this.address,
+        money: this.money,
+        recommend: this.recommend,
+        checkValue: this.checkValue,
+        avatar: this.avatar,
+        postUser: this.user.uid,
+        edit: this.edit,
 
         // checkValue: this.checkValue,
         id: newDoc,
@@ -269,6 +505,7 @@ export default {
         firebase.firestore().collection("post").doc(newDoc).set(comment)
         this.id += 1
         this.postDatas.push(comment)
+        this.postUser = ""
         this.facility = ""
         this.address = ""
         this.money = ""
@@ -276,6 +513,11 @@ export default {
         this.checkValue = ""
         this.avatar = ""
       }
+      const getId = this.postDatas[index].id
+      // const getPassword = this.thoughts[index].password
+      firebase.firestore().collection("post").doc(getId).delete()
+      this.postDatas.splice(index, 1)
+      // this.unlock__password.splice(index, 1)
     },
     deleteButton: function (index) {
       const getId = this.postDatas[index].id
@@ -283,6 +525,13 @@ export default {
       firebase.firestore().collection("post").doc(getId).delete()
       this.postDatas.splice(index, 1)
       // this.unlock__password.splice(index, 1)
+    },
+    editButton: function (index) {
+      this.postDatas[index].edit = true
+      //  const getId = this.postDatas[index].id
+      // const getPassword = this.thoughts[index].password
+      console.log(this.postDatas[index].facility)
+      // this.postDatas[index].facility = "え"
     },
   },
 
@@ -292,10 +541,21 @@ export default {
       .collection("post")
       .get()
       .then((snapshot) => {
-        for (let i = 0; i < snapshot.docs.length; i++) {
-          this.postDatas.push(snapshot.docs[i].data())
-        }
+        snapshot.forEach((doc) => {
+          if (doc.data().postUser === this.user.uid) {
+            console.log(doc.data())
+
+            this.postDatas.push({ ...doc.data() })
+          }
+        })
+        console.log(this.postDatas[0])
       })
+    // this.currentUser = this.user.uid
+  },
+  computed: {
+    user() {
+      return this.$auth.currentUser
+    },
   },
 }
 </script>
@@ -434,6 +694,13 @@ export default {
     flex: inherit;
     font-size: 15px;
   }
+  .Form-Item-Textarea {
+    margin-left: 0;
+    margin-top: 18px;
+    height: 100px;
+    flex: inherit;
+    font-size: 15px;
+  }
 }
 .Form-Item-Textarea {
   border: 1px solid #ddd;
@@ -480,5 +747,39 @@ export default {
     width: 160px;
     font-size: 16px;
   }
+}
+#feas-sort-menu {
+  text-align: center;
+  margin: 1em auto;
+  padding: 1em 0;
+}
+/* id=feas-sort-menu内のすべてのdivタグに適用 */
+#feas-sort-menu div {
+  display: inline-block;
+  width: 20%;
+  text-align: center;
+  border-left: 1px solid #dadee6;
+}
+/* その最初のdivタグのみに適用 */
+#feas-sort-menu div:first-child {
+  border-left: none;
+}
+/* 見出しに適用 */
+#feas-sort-menu p.midashi {
+  display: block;
+  font-weight: bold;
+  color: #5d5d5d;
+  margin-bottom: 0.5em;
+  line-height: 1;
+}
+/* すべてのソートボタンに適用 */
+#feas-sort-menu span {
+  color: white;
+  display: inline-block;
+  width: 3em;
+  height: 2em;
+  background-color: #54bee6;
+  border-radius: 3px;
+  margin: 0 3px;
 }
 </style>

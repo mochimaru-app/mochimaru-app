@@ -1,5 +1,7 @@
 <template>
   <div id="app">
+    <div id="nav">
+  
     <!--ハンバーガーメニューのボタン-->
     <div class="hamburger_btn" v-on:click="ActiveBtn = !ActiveBtn">
       <span
@@ -14,6 +16,11 @@
         class="line line_03"
         v-bind:class="{ btn_line03: ActiveBtn }"
       ></span>
+    <div class="hamburger_btn" v-on:click='ActiveBtn=!ActiveBtn'>
+      <span class="line line_01" v-bind:class="{'btn_line01':ActiveBtn}"></span>
+      <span class="line line_02" v-bind:class="{'btn_line02':ActiveBtn}"></span>
+      <span class="line line_03" v-bind:class="{'btn_line03':ActiveBtn}"></span>
+
     </div>
 
     <!--サイドバー-->
@@ -103,8 +110,10 @@ export default {
         .then(() => {
           this.isLoggin = false
         })
+      this.$router.push("/about")
     },
   },
+ 
 }
 </script>
 
