@@ -411,6 +411,7 @@ export default {
               this.marker.setMap(null)
             }
             this.map.setCenter(results[0].geometry.location)
+            console.log(results[0])
             this.marker = new google.maps.Marker({
               map: this.map,
               position: results[0].geometry.location,

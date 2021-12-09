@@ -15,29 +15,38 @@
         v-bind:class="{ btn_line03: ActiveBtn }"
       ></span>
     </div>
-    <div class="hamburger_btn" v-on:click='ActiveBtn=!ActiveBtn'>
-      <span class="line line_01" v-bind:class="{'btn_line01':ActiveBtn}"></span>
-      <span class="line line_02" v-bind:class="{'btn_line02':ActiveBtn}"></span>
-      <span class="line line_03" v-bind:class="{'btn_line03':ActiveBtn}"></span>
 
+    <div class="hamburger_btn" v-on:click="ActiveBtn = !ActiveBtn">
+      <span
+        class="line line_01"
+        v-bind:class="{ btn_line01: ActiveBtn }"
+      ></span>
+      <span
+        class="line line_02"
+        v-bind:class="{ btn_line02: ActiveBtn }"
+      ></span>
+      <span
+        class="line line_03"
+        v-bind:class="{ btn_line03: ActiveBtn }"
+      ></span>
     </div>
 
     <!--サイドバー-->
     <transition name="menu">
       <div class="menu" v-show="ActiveBtn">
         <ul>
-          <li>
+          <li v-on:click="ActiveBtn = !ActiveBtn">
             <router-link to="/"><i class="fas fa-home"></i> Home</router-link>
           </li>
           <!-- <router-link to="/about">About</router-link> -->
           <!-- <router-link to="/post">Post</router-link> -->
-          <li>
+          <li v-on:click="ActiveBtn = !ActiveBtn">
             <router-link to="/map"
               ><i class="fas fa-map-marker-alt"></i> Map</router-link
             >
           </li>
           <!-- <router-link to="/detail">Detail</router-link> -->
-          <li>
+          <li v-on:click="ActiveBtn = !ActiveBtn">
             <router-link to="/mypage"
               ><i class="fas fa-user-circle"></i> Mypage</router-link
             >
@@ -112,7 +121,6 @@ export default {
       this.$router.push("/about")
     },
   },
- 
 }
 </script>
 
@@ -195,7 +203,6 @@ export default {
   color: rgb(255, 255, 255);
   list-style: none;
   line-height: 1;
-  padding: 1rem;
 }
 .menu {
   background-color: #5bc8ad91;
