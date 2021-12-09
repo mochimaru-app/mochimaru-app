@@ -1,18 +1,20 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-
-      <router-link to="/about">About</router-link> |
-
-      <router-link to="/post">Post</router-link> |
-
-      <router-link to="/map">Map</router-link> |
-
-      <router-link to="/mypage">Mypage</router-link>
-    </div>
-    
     <!--ハンバーガーメニューのボタン-->
+    <div class="hamburger_btn" v-on:click="ActiveBtn = !ActiveBtn">
+      <span
+        class="line line_01"
+        v-bind:class="{ btn_line01: ActiveBtn }"
+      ></span>
+      <span
+        class="line line_02"
+        v-bind:class="{ btn_line02: ActiveBtn }"
+      ></span>
+      <span
+        class="line line_03"
+        v-bind:class="{ btn_line03: ActiveBtn }"
+      ></span>
+    </div>
     <div class="hamburger_btn" v-on:click='ActiveBtn=!ActiveBtn'>
       <span class="line line_01" v-bind:class="{'btn_line01':ActiveBtn}"></span>
       <span class="line line_02" v-bind:class="{'btn_line02':ActiveBtn}"></span>
@@ -25,20 +27,31 @@
       <div class="menu" v-show="ActiveBtn">
         <ul>
           <li>
-            <router-link to="/">Home</router-link></li>
+            <router-link to="/"><i class="fas fa-home"></i> Home</router-link>
+          </li>
           <!-- <router-link to="/about">About</router-link> -->
           <!-- <router-link to="/post">Post</router-link> -->
-          <li><router-link to="/map">Map</router-link></li>
+          <li>
+            <router-link to="/map"
+              ><i class="fas fa-map-marker-alt"></i> Map</router-link
+            >
+          </li>
           <!-- <router-link to="/detail">Detail</router-link> -->
-          <li><router-link to="/mypage">Mypage</router-link></li>
+          <li>
+            <router-link to="/mypage"
+              ><i class="fas fa-user-circle"></i> Mypage</router-link
+            >
+          </li>
         </ul>
       </div>
     </transition>
     <router-view />
-    <div v-if="isLoggin">している
+    <div v-if="isLoggin">
+      している
       <button @click="logOut">ログアウト</button>
     </div>
-    <div v-else>してない
+    <div v-else>
+      してない
       <button @click="login">ログイン</button>
 
       <!-- <div class="signed-in-user-profile" v-if="user">
@@ -96,6 +109,7 @@ export default {
         .then(() => {
           this.isLoggin = false
         })
+      this.$router.push("/about")
     },
   },
  
@@ -145,7 +159,6 @@ export default {
   transition: 0.4s ease;
 }
 
-
 .btn_line01 {
   transform: translateY(10px) rotate(-45deg);
   transition: 0.4s ease;
@@ -160,13 +173,16 @@ export default {
 }
 
 /*サイドバー*/
-.menu-enter-active, .menu-leave-active {
+.menu-enter-active,
+.menu-leave-active {
   transition: opacity 0.4s;
 }
-.menu-enter, .menu-leave-to {
+.menu-enter,
+.menu-leave-to {
   opacity: 0;
 }
-.menu-leave, .menu-enter-to{
+.menu-leave,
+.menu-enter-to {
   opacity: 1;
 }
 
@@ -196,8 +212,9 @@ export default {
   text-decoration: none;
   font-size: 1.2rem;
   padding: 0 2rem;
+  transition: 0.3s;
 }
-.menu ul{
+.menu ul {
   margin: 1rem;
   padding: 0;
 }
