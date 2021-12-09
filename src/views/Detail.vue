@@ -1,46 +1,87 @@
 <template>
   <div class="main">
-    <h1>施設名</h1>
-    <h2>★★★★★</h2>
+    <div v-for="postData in postDatas" v-bind:key="postData.id">
+      <div v-if="$route.params.id === postData.id">
+        <h1 class="facility">施設名: {{ postData.facility }}</h1>
+        <h2 class="stars">{{ postData.checkValue }}</h2>
 
-    <div class="sub-main">
-      <div class="left">
-        <h3>所在地</h3>
-        <p>～県～市～町～番目</p>
+        <div class="sub-main">
+          <div class="left">
+            <div class="left-item">
+              <h3>所在地:</h3>
+              <p>{{ postData.adress }}</p>
+            </div>
 
-        <h3>金額</h3>
-        <p>10,000</p>
+            <div class="left-item">
+              <h3>金額:</h3>
+              <p>{{ postData.money }}</p>
+            </div>
 
-        <h3>オススメポイント</h3>
-        <p>
-          あれとそれとこれが良かった！けど、あそことそことここがイマイチ、、
-        </p>
-      </div>
-      <div class="right">
-        <button>画像</button>
-        <button>map</button>
-        <br />
-        <img
-          class="img"
-          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAbFBMVEX///83QUkpNj/z9PQxPERYYGUhLzmdoaQnND34+PkkMTodKzXHycvT1dbq6+yytbdqcHWSlpkYKDNJUlkvOkLa29w8Rk5fZmzg4eO8vsCfo6aIjJBwdnuCh4vn6OlPV11DTFTCxMausbN7gIWeU2LzAAAEk0lEQVR4nO2c7XaqMBBFFaOoaFXU+tXWat//Ha+1VZEwkEDIZHrP/j3W7OUqx0wmdjoAAAAAAACA/5BRj4Z7bUZsX7flBXEaEQzTkZ81NmI6VuNpaUUcdSmGAgx36WWh6a6sRLbhPrmuNNmX1Ig2PCS/S00OdJFkw7fxfa3jN7JKruGon1161KdWK9bw5XP1tNrV50txoVTD7Urllqui4mAUajgZ5AUvioNJUalMw2sM6qSzglqRhnGx4EUxLigWaHiPQZ3Bu1Yt0HA+Jpd8CcZ5vlyc4XMM6kTH3LKlGb68rsgF/7B6fQ5GYYZrLQZ11GqdfYksw6IYLCDJBqMowxmVEnmywSjJMKZTQvsUF49XyTF8HxgLXoLx6/YyOYalMViw+s3v66QY9o7lMaizWv40CxcyDKtjUEd1r8Eow3A9NEqJvOLwOxhFGE5snjFZBicZhsYxqJOeJRguzGNQJ4lj+j84EEOrGNQpewSHYbgZNhIsJQTD0dE+JUQZfnTrpIQgw3XUqiC/4anJQ1SC4bl+DMowbBSDEgy/msVg+IZtxmAIhr1lmzEYgGHLMchvODXrGco13LX/EOU1bD8GmQ0PHlKC1fDNrmcozrDq6Ey8Ye/TSwzyGeoTJH/M0FsMchk26BnKMNz7F/Rr2LBnGL6h5dGZOMOR9dGZGxQ5sumYOkdnbshPprRE2z3DMnKTKe0wYXiIZkgKRzZdcva2G6QUz+0KLng/wW/SRfUy6+OjZ1jJYzLFPV56htXcJ1Nc46lnaMBtMsUxvnqGJqjuh3vB6TgcwYtixQ24GvjrGRqSlN6As4djs1RBWnYDzpqScXs+ym7A2cKzWapEH/SvieeeoQX0DTgr+DZL1TjZTq1VSCmRR6nG26lJErLgRbHpdoqhZ2hL4Q04YyzG7flICm7AmcLSM7Sn4AacIfMwNkvV1AxG+3F7PqJjje1UyDGoUyMY643b86Eiy2CsPW7PR/HVcAoBMahjE4we5gzbIDHuMwbRM6yDaTAG0jOsg1Gfsd1x+7bRrobrfAS9Warm9wYczZTx6MwNFcF4kpgSedITLbiXmRJ5UvIALsieYR2oYPQ6Z9guhQdw4fYM61AQjLI2S9VoB3Bb8SmRR6mnAzjmAYtWUIPMAdzsrzxEn3kcwLkdsBiTPP4RFF3kcim3Azi3m6XjdEIw7d8UVZ8uOrpczOBwTQnyR18zGP9N1ae+T3Q687thSfevb/7IK1nv6ocovbzTOTZgb/y2Hg3VnljtIsPBdITK+EP0aBgZrh2GMIQhDGEIQxjCEIYwhCEMYQhDGMIQhjCUaXhcTwnWm7vhhi46hm7YVQMSZVcUqqE/YAhDGPIDQxjCkEIlJMquKFBD1e+9EPQy30vpovC/l/79b94whCEMYQhDGMIQhjCEIQxhCEMYwhCGMIQhDGFoxnI3I9hlbnbRRUvjd2I7txiSZLr6dJH5G+FkBoYw5AeGMIQhPzCEIQz5gSEMYcgPDGEIQ35gCEMY8gNDGMKQHxjCEIb8wBCGMOTHrWE6NPihWr8MU6eGvRBxaggAAAAAAABoxD++/pyTd1EqfQAAAABJRU5ErkJggg=="
-          alt="画像・地図"
-        />
+            <div class="left-item">
+              <h3>オススメポイント:</h3>
+              <p>{{ postData.recommend }}</p>
+            </div>
+          </div>
+          <div class="right">
+            <div id="tab">
+              <ul class="tabMenu">
+                <li @click="isSelect('1')">Image</li>
+                <li class="secondChild" @click="isSelect('2')">Map</li>
+              </ul>
+            </div>
+            <div class="tabContents">
+              <div v-if="isActive === '1'">
+                <img class="img" src="postData.avatar" alt="画像・地図" />
+              </div>
+              <div v-else-if="isActive === '2'">マップが表示されるよ～</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import firebase from "firebase"
+
 export default {
   data() {
     return {
-
+      postDatas: [],
+      isActive: "1",
     }
+  },
+  methods: {
+    isSelect: function (num) {
+      this.isActive = num
+    },
+  },
+  created() {
+    firebase
+      .firestore()
+      .collection("post")
+      .get()
+      .then((snapshot) => {
+        snapshot.docs.forEach((doc) => {
+          this.postDatas.push({
+            id: doc.id,
+            ...doc.data(),
+          })
+        })
+      })
   },
 }
 </script>
 
 <style scoped>
+.facility {
+  text-decoration: underline #5bc8ac;
+}
+.stars {
+  font-size: 30px;
+  color:#5bc8ac;
+}
 .sub-main {
   display: flex;
   justify-content: center;
@@ -48,10 +89,51 @@ export default {
 .left {
   width: 35%;
   padding-left: 15%;
+  padding-top: 50px;
+}
+.left-item {
+  border-top: 1px solid #ddd;
+  padding-top: 24px;
+  padding-bottom: 24px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+.left-item:nth-child(3) {
+  border-bottom: 1px solid #ddd;
+}
+.left-item h3 {
+  width: 40%;
 }
 .right {
   width: 35%;
   padding-right: 15%;
+}
+#tab {
+  width: 100%;
+  margin: 0 auto;
+}
+#tab .tabMenu {
+  display: flex;
+  justify-content: center;
+  margin: 0;
+}
+#tab li {
+  width: auto;
+  padding: 10px 20px;
+  color: white;
+  list-style: none;
+  background-color: #5bc8ac;
+  cursor: pointer;
+  border-radius: 0.75em;
+}
+#tab .secondChild {
+  border-right: none;
+  margin-left: 20%;
+}
+.tabContents {
+  width: 100%;
+  padding: 20px;
 }
 .img {
   width: 80%;

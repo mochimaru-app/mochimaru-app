@@ -1,10 +1,22 @@
 <template>
   <div id="app">
+    <div id="nav">
+      <router-link to="/">Home</router-link> |
+
+      <router-link to="/about">About</router-link> |
+
+      <router-link to="/post">Post</router-link> |
+
+      <router-link to="/map">Map</router-link> |
+
+      <router-link to="/mypage">Mypage</router-link>
+
     <!--ハンバーガーメニューのボタン-->
     <div class="hamburger_btn" v-on:click='ActiveBtn=!ActiveBtn'>
       <span class="line line_01" v-bind:class="{'btn_line01':ActiveBtn}"></span>
       <span class="line line_02" v-bind:class="{'btn_line02':ActiveBtn}"></span>
       <span class="line line_03" v-bind:class="{'btn_line03':ActiveBtn}"></span>
+
     </div>
 
     <!--サイドバー-->
