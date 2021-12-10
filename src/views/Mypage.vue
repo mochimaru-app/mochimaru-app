@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <h1>Mypage</h1>
     <upload v-model="picture" />
     <img :src="picture" />
   </div>
