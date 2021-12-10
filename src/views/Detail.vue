@@ -9,7 +9,7 @@
           <div class="left">
             <div class="left-item">
               <h3>所在地:</h3>
-              <p>{{ postData.adress }}</p>
+              <p>{{ postData.address }}</p>
             </div>
 
             <div class="left-item">
@@ -31,7 +31,9 @@
             </div>
             <div class="tabContents">
               <div v-if="isActive === '1'">
-                <img class="img" src="postData.avatar" alt="画像・地図" />
+                <div v-for="(avatar,index) in postData.avatars" :key="index">
+                  <img class="img" :src="avatar" alt="画像・地図" />
+                </div>
               </div>
               <div v-else-if="isActive === '2'">マップが表示されるよ～</div>
             </div>

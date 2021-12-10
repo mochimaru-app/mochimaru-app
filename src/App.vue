@@ -245,8 +245,8 @@ export default {
 
   /* ボタンの装飾 */
   position: fixed;
-  right: 30px;
-  bottom: 30px;
+  right: 65px;
+  bottom: 20px;
   z-index: 100;
   width: 100px;
   height: 100px;
