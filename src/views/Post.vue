@@ -142,14 +142,90 @@
       <div v-for="(postData, index) in postDatas" v-bind:key="index">
         <div v-if="postData.edit != 'true'">
           <!-- == this.currentUser -->
-          <span class="answer">時間:</span
-          >{{ postData.time.toDate().getFullYear() }}<br />
+          <div style="margin: 10px 8%">
+            <div
+              class="l-border l-p-t l-p-r l-p-b l-p-l"
+              style="
+                margin: 10px 5px;
+                padding: 15px;
+                word-break: break-all;
+                color: #333;
+                box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+                background: url(https://stat.ameba.jp/user_images/20141029/18/wazameba/21/21/p/o0300030013113018942.png);
+                border-radius: 10px;
+              "
+            >
+              <div
+                style="
+                  background: rgba(255, 255, 255, 0.85);
+                  padding: 5px;
+                  border-radius: 5px;
+                "
+              >
+                <div
+                  style="
+                    border: 2px dashed #cbdcf6;
+                    border-radius: 5px;
+                    padding: 10px;
+                  "
+                >
+                  {{ postData.time.toDate().getFullYear() }}年{{
+                    postData.time.toDate().getMonth()
+                  }}月{{ postData.time.toDate().getDate() }}日
+                  <h1 class="facility">施設名: {{ postData.facility }}</h1>
+                  <h2 class="stars">{{ postData.checkValue }}</h2>
+
+                  <div class="sub-main">
+                    <div class="left">
+                      <div class="left-item">
+                        <h3>所在地:</h3>
+                        <p>{{ postData.adress }}</p>
+                      </div>
+
+                      <div class="left-item">
+                        <h3>金額:</h3>
+                        <p>{{ postData.money }}</p>
+                      </div>
+
+                      <div class="left-item">
+                        <h3>オススメポイント:</h3>
+                        <p>{{ postData.recommend }}</p>
+                      </div>
+                    </div>
+                    <div class="right">
+                      <div id="tab">
+                        <ul class="tabMenu">
+                          <li @click="isSelect('1')">Image</li>
+                          <li class="secondChild" @click="isSelect('2')">
+                            Map
+                          </li>
+                        </ul>
+                      </div>
+                      <div class="tabContents">
+                        <!-- <div v-if="isActive === '1'"> -->
+                        <img
+                          class="img"
+                          src="postData.avatar"
+                          alt="画像・地図"
+                        />
+                        <!-- </div> -->
+                        <!-- <div v-else-if="isActive === '2'"> -->
+                        マップが表示されるよ～
+                      </div>
+                      <!-- </div> -->
+                    </div>
+                  </div>
+
+                  あああ
+                  <!-- <span class="answer"></span
+          >{{ postData.time.toDate().getFullYear() }}年{{
+            postData.time.toDate().getMonth()
+          }}月{{ postData.time.toDate().getDate() }}日<br />
           <span class="answer">施設名:</span>{{ postData.facility }}<br />
           <span class="answer">住所:</span>{{ postData.address }} <br />
           <span class="answer">金額:</span>{{ postData.money }}<br />
           <span class="answer">おすすめポイント:</span>{{ postData.recommend
           }}<br />
-          <!-- <span class="answer">画像</span>url({{ postData.avatar }})<br /> -->
           <div v-if="postData.avatars != []">
             <div v-for="(avatar, index) in postData.avatars" v-bind:key="index">
               <img v-bind:src="postData.avatars[index]" /><br />
@@ -163,13 +239,19 @@
             <div v-else-if="postData.checkValue == '★★'">★★</div>
             <div v-else-if="postData.checkValue == '★'">★</div>
             <div v-else class="nostar">★</div>
-          </div>
+          </div> -->
 
-          <!-- <div class="border"></div> -->
-          <button class="delete__button" @click="deleteButton(index)">
-            削除
-          </button>
-          <button class="edit__button" @click="editButton(index)">編集</button>
+                  <!-- <div class="border"></div> -->
+                  <button class="delete__button" @click="deleteButton(index)">
+                    削除
+                  </button>
+                  <button class="edit__button" @click="editButton(index)">
+                    編集
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <div v-else>
           <div class="Form">
@@ -276,7 +358,18 @@
             </div>
             <div>
               <h2>map</h2>
+              <input class="search-input" type="text" v-model="mapAddress" />
+              <button type="button" @click="mapSearch">検索</button>
+              <div>
+                緯度：<input type="text" v-model="lat" ref="lat" /> 経度：<input
+                  type="text"
+                  v-model="lng"
+                  ref="lng"
+                />
+              </div>
+              <div id="map" style="height: 400px; width: 500px"></div>
             </div>
+
             <button @click="editFirebase(index)">編集！</button>
           </div>
         </div>
@@ -293,6 +386,7 @@ import firebase from "firebase"
 export default {
   data() {
     return {
+      add: "",
       // time: "",
       login: "false",
       edit: "false",
@@ -421,7 +515,7 @@ export default {
               this.marker.setMap(null)
             }
             this.map.setCenter(results[0].geometry.location)
-            // console.log(results[0])
+            console.log(results[0])
             this.marker = new google.maps.Marker({
               map: this.map,
               position: results[0].geometry.location,
@@ -429,6 +523,8 @@ export default {
             })
             this.lat = results[0].geometry.location.lat()
             this.lng = results[0].geometry.location.lng()
+            // this.add = results[0].geometry.formatted_address
+            console.log(results[0].formatted_address)
             this.aft = true
             // マーカーのドロップ（ドラッグ終了）時のイベント
             google.maps.event.addListener(
@@ -439,6 +535,7 @@ export default {
                 const lng = ev.latLng.lng()
                 this.lat = lat
                 this.lng = lng
+                console.log(ev)
               }.bind(this)
             )
           }
@@ -556,10 +653,6 @@ export default {
       else {
         this.postDatas[index].edit = "false"
       }
-      //  const getId = this.postDatas[index].id
-      // const getPassword = this.thoughts[index].password
-      // console.log(this.postDatas[index].facility)
-      // this.postDatas[index].facility = "え"
     },
   },
 
@@ -808,5 +901,71 @@ export default {
   background-color: #54bee6;
   border-radius: 3px;
   margin: 0 3px;
+}
+
+.facility {
+  text-decoration: underline #5bc8ac;
+}
+.stars {
+  font-size: 30px;
+  color: #5bc8ac;
+}
+.sub-main {
+  display: flex;
+  justify-content: center;
+}
+.left {
+  width: 35%;
+  padding-left: 15%;
+  padding-top: 50px;
+}
+.left-item {
+  border-top: 1px solid #ddd;
+  padding-top: 24px;
+  padding-bottom: 24px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+.left-item:nth-child(3) {
+  border-bottom: 1px solid #ddd;
+}
+.left-item h3 {
+  width: 40%;
+}
+.right {
+  width: 35%;
+  padding-right: 15%;
+}
+#tab {
+  width: 100%;
+  margin: 0 auto;
+}
+#tab .tabMenu {
+  display: flex;
+  justify-content: center;
+  margin: 0;
+}
+#tab li {
+  width: auto;
+  padding: 10px 20px;
+  color: white;
+  list-style: none;
+  background-color: #5bc8ac;
+  cursor: pointer;
+  border-radius: 0.75em;
+}
+#tab .secondChild {
+  border-right: none;
+  margin-left: 20%;
+}
+.tabContents {
+  width: 100%;
+  padding: 20px;
+}
+.img {
+  width: 80%;
+  height: 80%;
+  padding: 10%;
 }
 </style>

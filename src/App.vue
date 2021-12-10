@@ -1,8 +1,24 @@
 <template>
   <div id="app">
+     <div v-if="isLoggin">
+      ようこそ{{ $auth.currentUser.displayName }}君
+      <button @click="logOut">ログアウト</button>
+    </div>
+    <div v-else>
+      してない
+      <button @click="login">ログイン</button>
+
+      <!-- <div class="signed-in-user-profile" v-if="user">
+      <div>ようこそ{{user.displayName}}</div>
+      </div>
+      <div v-else>No User Signed In</div> -->
+    </div>
+
+    <router-link to="/post">
     <button id="postButton" class="postButton" onclick="href='/post'">
       +
     </button>
+    </router-link>
 
     <!--ハンバーガーメニューのボタン-->
     <div class="hamburger_btn" v-on:click="ActiveBtn = !ActiveBtn">
@@ -58,19 +74,7 @@
       </div>
     </transition>
     <router-view />
-    <div v-if="isLoggin">
-      している
-      <button @click="logOut">ログアウト</button>
-    </div>
-    <div v-else>
-      してない
-      <button @click="login">ログイン</button>
-
-      <!-- <div class="signed-in-user-profile" v-if="user">
-      <div>ようこそ{{user.displayName}}</div>
-      </div>
-      <div v-else>No User Signed In</div> -->
-    </div>
+   
   </div>
 </template>
 
@@ -84,6 +88,11 @@ export default {
       ActiveBtn: false,
       isLoggin: false,
     }
+  },
+  computed: {
+    user() {
+      return this.$auth.currentUser
+    },
   },
   // created(){
   //       firebase.auth().onAuthStateChanged((user)=>{
@@ -110,7 +119,7 @@ export default {
           if (result.user) {
             this.isLoggin = true
             // $router.push("/About");
-            this.$router.push("/about")
+            this.$router.push("/mypage")
           }
         })
     },
