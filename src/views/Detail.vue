@@ -37,6 +37,12 @@
             </div>
           </div>
         </div>
+
+        <div class="date">
+          投稿日：{{ postData.time.toDate().getFullYear() }}年{{
+            postData.time.toDate().getMonth()
+          }}月{{ postData.time.toDate().getDate() }}日
+        </div>
       </div>
     </div>
   </div>

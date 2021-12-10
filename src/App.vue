@@ -19,7 +19,6 @@
         +
       </button>
     </router-link>
-
     <!--ハンバーガーメニューのボタン-->
     <div class="hamburger_btn" v-on:click="ActiveBtn = !ActiveBtn">
       <span
