@@ -1,8 +1,8 @@
 <template>
   <div>
     <div v-if="$route.path == '/post'">
-      <h1>Post page</h1>
-      <h3>皆のオススメを投稿して共有しよう！</h3>
+      <h1>Post</h1>
+      <p>あなたのおすすめスポットを投稿して共有しよう！</p>
       <div class="Form">
         <div class="Form-Item">
           <p class="Form-Item-Label">
@@ -117,7 +117,8 @@
       </div>
     </div>
     <div v-if="$route.path == '/mypage'">
-      <h2>一覧</h2>
+      <h2>自分の投稿一覧</h2>
+      <p>自分が投稿した内容を確認できます</p>
       <div id="feas-sort-menu">
         <div class="feas-sort-price">
           <p class="midashi">金額で並び替え</p>
