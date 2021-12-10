@@ -1,6 +1,9 @@
 <template>
   <div id="app">
-  
+    <button id="postButton" class="postButton" onclick="href='/post'">
+      +
+    </button>
+
     <!--ハンバーガーメニューのボタン-->
     <div class="hamburger_btn" v-on:click="ActiveBtn = !ActiveBtn">
       <span
@@ -15,12 +18,20 @@
         class="line line_03"
         v-bind:class="{ btn_line03: ActiveBtn }"
       ></span>
-      </div>
-    <div class="hamburger_btn" v-on:click='ActiveBtn=!ActiveBtn'>
-      <span class="line line_01" v-bind:class="{'btn_line01':ActiveBtn}"></span>
-      <span class="line line_02" v-bind:class="{'btn_line02':ActiveBtn}"></span>
-      <span class="line line_03" v-bind:class="{'btn_line03':ActiveBtn}"></span>
-
+    </div>
+    <div class="hamburger_btn" v-on:click="ActiveBtn = !ActiveBtn">
+      <span
+        class="line line_01"
+        v-bind:class="{ btn_line01: ActiveBtn }"
+      ></span>
+      <span
+        class="line line_02"
+        v-bind:class="{ btn_line02: ActiveBtn }"
+      ></span>
+      <span
+        class="line line_03"
+        v-bind:class="{ btn_line03: ActiveBtn }"
+      ></span>
     </div>
 
     <!--サイドバー-->
@@ -61,7 +72,6 @@
       <div v-else>No User Signed In</div> -->
     </div>
   </div>
-  
 </template>
 
 <script>
@@ -111,10 +121,9 @@ export default {
         .then(() => {
           this.isLoggin = false
         })
-      this.$router.push("/about")
+      location.reload(true)
     },
   },
- 
 }
 </script>
 
@@ -219,5 +228,32 @@ export default {
 .menu ul {
   margin: 1rem;
   padding: 0;
+}
+.postButton {
+  /* buttonタグのリセットCSS */
+  border: none;
+  cursor: pointer;
+  outline: none;
+  padding: 0;
+  appearance: none;
+
+  /* ボタンの装飾 */
+  position: fixed;
+  right: 30px;
+  bottom: 30px;
+  z-index: 100;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-color: #115582;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  font-size: 400%;
+  opacity: 0.9; /* ←透明度 */
+}
+.postButton:hover {
+  transform: scale(1.1);
 }
 </style>
