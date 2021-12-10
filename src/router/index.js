@@ -3,6 +3,7 @@ import VueRouter from "vue-router"
 import Home from "../views/Home.vue"
 import Map from "../views/Map.vue"
 import Mypage from "../views/Mypage.vue"
+import Edit from "../views/Edit.vue"
 
 Vue.use(VueRouter)
 
@@ -40,6 +41,12 @@ const routes = [
     path: "/mypage",
     name: "Mypage",
     component: Mypage,
+  },
+  {
+    path: "/edit/:postId",
+    name: "Edit",
+    props: true,
+    component: Edit,
   },
 ]
 

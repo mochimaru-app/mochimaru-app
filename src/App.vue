@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-     <div v-if="isLoggin">
+    <div v-if="isLoggin">
       ようこそ{{ $auth.currentUser.displayName }}君
       <button @click="logOut">ログアウト</button>
     </div>
@@ -15,9 +15,9 @@
     </div>
 
     <router-link to="/post">
-    <button id="postButton" class="postButton" onclick="href='/post'">
-      +
-    </button>
+      <button id="postButton" class="postButton" onclick="href='/post'">
+        +
+      </button>
     </router-link>
 
     <!--ハンバーガーメニューのボタン-->
@@ -74,7 +74,6 @@
       </div>
     </transition>
     <router-view />
-   
   </div>
 </template>
 

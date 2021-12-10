@@ -42,7 +42,9 @@ export default {
             "<p>評価:" +
             this.postDatas[i].checkValue +
             "</p>" +
-            '<p>詳細: <a href="../detail/' + this.postDatas[i].id + '">' +
+            '<p>詳細: <a href="../detail/' +
+            this.postDatas[i].id +
+            '">' +
             "投稿詳細へ</a> " +
             "</p>"
           markerInfo(markers[i], contentString)
@@ -62,14 +64,14 @@ export default {
       .firestore()
       .collection("post")
       .get()
-      .then(snapshot => {
-        snapshot.docs.forEach(doc => {
+      .then((snapshot) => {
+        snapshot.docs.forEach((doc) => {
           this.postDatas.push({
             id: doc.id,
-            ...doc.data()
-          });
-        });
-      });
-  }
+            ...doc.data(),
+          })
+        })
+      })
+  },
 }
 </script>

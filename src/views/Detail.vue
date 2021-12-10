@@ -80,7 +80,7 @@ export default {
 }
 .stars {
   font-size: 30px;
-  color:#5bc8ac;
+  color: #5bc8ac;
 }
 .sub-main {
   display: flex;
