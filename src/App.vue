@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-  
     <!--ハンバーガーメニューのボタン-->
     <div class="hamburger_btn" v-on:click="ActiveBtn = !ActiveBtn">
       <span
@@ -15,12 +14,21 @@
         class="line line_03"
         v-bind:class="{ btn_line03: ActiveBtn }"
       ></span>
-      </div>
-    <div class="hamburger_btn" v-on:click='ActiveBtn=!ActiveBtn'>
-      <span class="line line_01" v-bind:class="{'btn_line01':ActiveBtn}"></span>
-      <span class="line line_02" v-bind:class="{'btn_line02':ActiveBtn}"></span>
-      <span class="line line_03" v-bind:class="{'btn_line03':ActiveBtn}"></span>
+    </div>
 
+    <div class="hamburger_btn" v-on:click="ActiveBtn = !ActiveBtn">
+      <span
+        class="line line_01"
+        v-bind:class="{ btn_line01: ActiveBtn }"
+      ></span>
+      <span
+        class="line line_02"
+        v-bind:class="{ btn_line02: ActiveBtn }"
+      ></span>
+      <span
+        class="line line_03"
+        v-bind:class="{ btn_line03: ActiveBtn }"
+      ></span>
     </div>
 
     <!--サイドバー-->
@@ -61,7 +69,6 @@
       <div v-else>No User Signed In</div> -->
     </div>
   </div>
-  
 </template>
 
 <script>
@@ -114,7 +121,6 @@ export default {
       this.$router.push("/about")
     },
   },
- 
 }
 </script>
 
