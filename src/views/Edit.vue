@@ -1,121 +1,124 @@
 <template>
-  <div>
-    <h1>Post page</h1>
-    <h3>皆のオススメを投稿して共有しよう！</h3>
-    <div class="Form">
-      <div class="Form-Item">
-        <p class="Form-Item-Label">
-          <span class="Form-Item-Label-Required">必須</span>施設名
-        </p>
-        <input
-          type="text"
-          class="Form-Item-Input"
-          placeholder="例）"
-          v-model="facility"
-        />
-      </div>
-      <div class="Form-Item">
-        <p class="Form-Item-Label">
-          <span class="Form-Item-Label-Required">必須</span>住所
-        </p>
-        <input
-          type="text"
-          class="Form-Item-Input"
-          placeholder="例）"
-          v-model="address"
-        />
-      </div>
-
-      <div class="Form-Item">
-        <p class="Form-Item-Label">
-          <span class="Form-Item-Label-Required">必須</span>金額
-        </p>
-        <input
-          type="text"
-          class="Form-Item-Input"
-          placeholder="例）"
-          v-model="money"
-        />
-      </div>
-
-      <div class="Form-Item">
-        <p class="Form-Item-Label">
-          <span class="Form-Item-Label-Required">必須</span>おすすめポイント
-        </p>
-        <input
-          type="text"
-          class="Form-Item-Textarea"
-          placeholder="例）"
-          v-model="recommend"
-        />
-      </div>
-
-      <div>
-        <h2>画像</h2>
-        <!-- <input type="file" /> -->
-        <p id="error" v-show="error">{{ error }}</p>
-        <label>
-          <!-- <input type="button" value="追加" onclick="clickBtn1()" /> -->
+  <div id="app">
+    <div>
+      <div class="Form">
+        <div class="Form-Item">
+          <p class="Form-Item-Label">
+            <span class="Form-Item-Label-Required">必須</span>施設名
+          </p>
           <input
-            type="file"
-            multiple
-            id="avatar_name"
-            accept=".jpg, .jpeg, .png, .svg, .gif"
-            @change="onImageChange"
-          />
-          <div v-if="avatars">
-            <div v-for="(avatar, index) in avatars" v-bind:key="index">
-              <img :src="avatar" alt="Avatar" class="image" />
-            </div>
-          </div>
-        </label>
-      </div>
-      <div>
-        <h2>評価</h2>
-        <div class="stars">
-          <input id="review01" type="radio" name="review" /><label
-            for="review01"
-            @click="setCheckValue1"
-            >★</label
-          >
-          <input id="review02" type="radio" name="review" /><label
-            for="review02"
-            @click="setCheckValue2"
-            >★</label
-          >
-          <input id="review03" type="radio" name="review" /><label
-            for="review03"
-            @click="setCheckValue3"
-            >★</label
-          >
-          <input id="review04" type="radio" name="review" /><label
-            for="review04"
-            @click="setCheckValue4"
-            >★</label
-          >
-          <input id="review05" type="radio" name="review" /><label
-            for="review05"
-            @click="setCheckValue5"
-            >★</label
-          >
-        </div>
-      </div>
-      <div>
-        <h2>map</h2>
-        <input class="search-input" type="text" v-model="mapAddress" />
-        <button type="button" @click="mapSearch">検索</button>
-        <div>
-          緯度：<input type="text" v-model="lat" ref="lat" /> 経度：<input
             type="text"
-            v-model="lng"
-            ref="lng"
+            value=""
+            placeholder=""
+            name="fa"
+            v-model="facility"
           />
         </div>
-        <div id="map" style="height: 400px; width: 500px"></div>
-      </div>
+        <div class="Form-Item">
+          <p class="Form-Item-Label">
+            <span class="Form-Item-Label-Required">必須</span>住所
+          </p>
+          <input
+            type="text"
+            class="Form-Item-Input"
+            placeholder="例）"
+            v-model="address"
+          />
+        </div>
 
-      <button v-on:click="post">投稿！</button>
+        <div class="Form-Item">
+          <p class="Form-Item-Label">
+            <span class="Form-Item-Label-Required">必須</span>金額
+          </p>
+          <input
+            type="text"
+            class="Form-Item-Input"
+            placeholder="例）"
+            v-model="money"
+          />
+        </div>
+
+        <div class="Form-Item">
+          <p class="Form-Item-Label">
+            <span class="Form-Item-Label-Required">必須</span>おすすめポイント
+          </p>
+          <input
+            type="text"
+            class="Form-Item-Textarea"
+            placeholder="例）"
+            v-model="recommend"
+          />
+        </div>
+
+        <div>
+          <h2>画像</h2>
+          <!-- <input type="file" /> -->
+          <p id="error" v-show="error">{{ error }}</p>
+          <label>
+            <div>
+              <input
+                type="file"
+                multiple
+                id="avatar_name"
+                accept=".jpg, .jpeg, .png, .svg, .gif"
+                @change="onImageChange"
+              />
+            </div>
+            <div v-if="avatars">
+              <div v-for="(avatar, index) in avatars" v-bind:key="index">
+                <img :src="avatar" alt="Avatar" class="image" />
+              </div>
+            </div>
+          </label>
+        </div>
+        <div>
+          <h2>評価</h2>
+          <div class="stars">
+            <input id="review01" type="radio" name="review" /><label
+              for="review01"
+              @click="setCheckValue1"
+              >★</label
+            >
+            <input id="review02" type="radio" name="review" /><label
+              for="review02"
+              @click="setCheckValue2"
+              >★</label
+            >
+            <input id="review03" type="radio" name="review" /><label
+              for="review03"
+              @click="setCheckValue3"
+              >★</label
+            >
+            <input id="review04" type="radio" name="review" /><label
+              for="review04"
+              @click="setCheckValue4"
+              >★</label
+            >
+            <input id="review05" type="radio" name="review" /><label
+              for="review05"
+              @click="setCheckValue5"
+              >★</label
+            >
+          </div>
+        </div>
+        <div>
+          <h2>map</h2>
+          <input class="search-input" type="text" v-model="mapAddress" />
+          <button type="button" @click="mapSearch">検索</button>
+          <div>
+            緯度：<input type="text" v-model="lat" ref="lat" /> 経度：<input
+              type="text"
+              v-model="lng"
+              ref="lng"
+            />
+          </div>
+          <div id="map" style="height: 400px; width: 500px"></div>
+        </div>
+
+        <button @click="editFirebase">編集！</button>
+      </div>
     </div>
+    <br />
   </div>
 </template>
 
@@ -124,6 +127,11 @@
 import firebase from "firebase"
 
 export default {
+  props: {
+    postId: {
+      type: String,
+    },
+  },
   data() {
     return {
       add: "",
@@ -148,7 +156,6 @@ export default {
       geocoder: null,
       mapAddress: "",
       aft: false,
-      postDatas: [],
     }
   },
   mounted() {
@@ -159,53 +166,6 @@ export default {
     this.geocoder = new google.maps.Geocoder()
   },
   methods: {
-    sort(index) {
-      switch (index) {
-        case 0:
-          this.postDatas.sort(function (a, b) {
-            if (a.money < b.money) return 1
-            if (a.money > b.money) return -1
-            return 0
-          })
-          break
-        case 1:
-          this.postDatas.sort(function (a, b) {
-            if (a.money < b.money) return -1
-            if (a.money > b.money) return 1
-            return 0
-          })
-          break
-        case 2:
-          this.postDatas.sort(function (a, b) {
-            if (a.time.seconds < b.time.seconds) return -1
-            if (a.time.seconds > b.time.seconds) return 1
-            return 0
-          })
-          break
-        case 3:
-          this.postDatas.sort(function (a, b) {
-            if (a.time.seconds < b.time.seconds) return 1
-            if (a.time.seconds > b.time.seconds) return -1
-            return 0
-          })
-          break
-        case 4:
-          this.postDatas.sort(function (a, b) {
-            if (a.checkValue < b.checkValue) return 1
-            if (a.checkValue > b.checkValue) return -1
-            return 0
-          })
-          break
-        case 5:
-          this.postDatas.sort(function (a, b) {
-            if (a.checkValue < b.checkValue) return -1
-            if (a.checkValue > b.checkValue) return 1
-            return 0
-          })
-          break
-        default:
-      }
-    },
     setError(error, text) {
       this.error =
         (error.response && error.response.data && error.response.data.error) ||
@@ -282,53 +242,9 @@ export default {
         }
       )
     },
-    post: function () {
-      // console.log(this.user.uid)
-      // console.log(this.$auth.currentUser.uid)
-      const time = new Date()
-      const newDoc = firebase.firestore().collection("post").doc().id
-      const comment = {
-        facility: this.facility,
-        address: this.address,
-        money: this.money,
-        recommend: this.recommend,
-        checkValue: this.checkValue,
-        avatars: this.avatars,
-        postUser: this.user.uid,
-        edit: this.edit,
-        lat: this.lat,
-        lng: this.lng,
-        id: newDoc,
-        time: time,
-      }
-      if (
-        this.facility !== "" &&
-        this.address !== "" &&
-        this.money !== "" &&
-        this.recommend !== ""
-        // this.lat !== "" &&
-        // this.lng !== ""
-      ) {
-        firebase.firestore().collection("post").doc(newDoc).set(comment)
-        this.id += 1
-        this.postDatas.push(comment)
-        this.postUser = ""
-        this.facility = ""
-        this.address = ""
-        this.money = ""
-        this.recommend = ""
-        this.checkValue = ""
-        this.avatars = []
-        this.lat = ""
-        this.lng = ""
-        // history.back()
-      } else {
-        alert("必須項目を埋めてね。")
-      }
-    },
-    editFirebase: function (index) {
+
+    editFirebase: function () {
       if (confirm("外部のページへ移動します。よろしいですか？")) {
-        this.postDatas[index].edit == "false"
         // console.log(this.user.uid)
         // console.log(this.$auth.currentUser.uid)
         const time = new Date()
@@ -356,7 +272,7 @@ export default {
           this.lng !== ""
           // this.checkValue !== ""
         ) {
-          firebase.firestore().collection("post").doc(newDoc).set(comment)
+          firebase.firestore().collection("post").doc(this.postId).set(comment)
           this.id += 1
           this.postDatas.push(comment)
           this.postUser = ""
@@ -368,49 +284,32 @@ export default {
           this.avatars = []
           this.lat = ""
           this.lng = ""
-
-          const getId = this.postDatas[index].id
-          firebase.firestore().collection("post").doc(getId).delete()
-          this.postDatas.splice(index, 1)
-          location.reload()
+          firebase.firestore().collection("post").doc(this.postId).delete()
         } else {
           alert("必須項目を埋めてね。")
         }
       }
     },
 
-    deleteButton: function (index) {
-      if (confirm("外部のページへ移動します。よろしいですか？")) {
-        const getId = this.postDatas[index].id
-        firebase.firestore().collection("post").doc(getId).delete()
-        this.postDatas.splice(index, 1)
-      }
-    },
-    editButton: function (index) {
-      console.log(this.postDatas[index].edit)
-      if (this.postDatas[index].edit == "false")
-        this.postDatas[index].edit = "true"
-      else {
-        this.postDatas[index].edit = "false"
-      }
-    },
+   
+   
   },
 
   created() {
     firebase
       .firestore()
       .collection("post")
+      .doc(this.postId)
       .get()
-      .then((snapshot) => {
-        snapshot.forEach((doc) => {
-          if (doc.data().postUser === this.user.uid) {
-            this.login = "true"
-            this.postDatas.push({ ...doc.data() })
-          }
-        })
+      .then((doc) => {
+        console.log(this.postId)  
+        console.log(doc.data())
+        this.facility=doc.data().facility
+
         // console.log(this.postDatas[0])
       })
     // this.currentUser = this.user.uid
+    
   },
   computed: {
     user() {
@@ -444,7 +343,7 @@ export default {
   width: 400px;
   margin-bottom: 20px;
 }
-#map {
+.map {
   margin: 0px auto;
   margin-top: 20px;
   margin-bottom: 60px;

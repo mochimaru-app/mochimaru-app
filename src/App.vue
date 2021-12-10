@@ -1,5 +1,24 @@
 <template>
   <div id="app">
+    <div v-if="isLoggin">
+      ようこそ{{ $auth.currentUser.displayName }}君
+      <button @click="logOut">ログアウト</button>
+    </div>
+    <div v-else>
+      してない
+      <button @click="login">ログイン</button>
+
+      <!-- <div class="signed-in-user-profile" v-if="user">
+      <div>ようこそ{{user.displayName}}</div>
+      </div>
+      <div v-else>No User Signed In</div> -->
+    </div>
+
+    <router-link to="/post">
+      <button id="postButton" class="postButton" onclick="href='/post'">
+        +
+      </button>
+    </router-link>
     <!--ハンバーガーメニューのボタン-->
     <div class="hamburger_btn" v-on:click="ActiveBtn = !ActiveBtn">
       <span
@@ -15,7 +34,6 @@
         v-bind:class="{ btn_line03: ActiveBtn }"
       ></span>
     </div>
-
     <div class="hamburger_btn" v-on:click="ActiveBtn = !ActiveBtn">
       <span
         class="line line_01"
@@ -55,19 +73,6 @@
       </div>
     </transition>
     <router-view />
-    <div v-if="isLoggin">
-      している
-      <button @click="logOut">ログアウト</button>
-    </div>
-    <div v-else>
-      してない
-      <button @click="login">ログイン</button>
-
-      <!-- <div class="signed-in-user-profile" v-if="user">
-      <div>ようこそ{{user.displayName}}</div>
-      </div>
-      <div v-else>No User Signed In</div> -->
-    </div>
   </div>
 </template>
 
@@ -81,6 +86,11 @@ export default {
       ActiveBtn: false,
       isLoggin: false,
     }
+  },
+  computed: {
+    user() {
+      return this.$auth.currentUser
+    },
   },
   // created(){
   //       firebase.auth().onAuthStateChanged((user)=>{
@@ -107,7 +117,7 @@ export default {
           if (result.user) {
             this.isLoggin = true
             // $router.push("/About");
-            this.$router.push("/about")
+            this.$router.push("/mypage")
           }
         })
     },
@@ -118,7 +128,7 @@ export default {
         .then(() => {
           this.isLoggin = false
         })
-      this.$router.push("/about")
+      location.reload(true)
     },
   },
 }
@@ -224,5 +234,32 @@ export default {
 .menu ul {
   margin: 1rem;
   padding: 0;
+}
+.postButton {
+  /* buttonタグのリセットCSS */
+  border: none;
+  cursor: pointer;
+  outline: none;
+  padding: 0;
+  appearance: none;
+
+  /* ボタンの装飾 */
+  position: fixed;
+  right: 30px;
+  bottom: 30px;
+  z-index: 100;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-color: #115582;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  font-size: 400%;
+  opacity: 0.9; /* ←透明度 */
+}
+.postButton:hover {
+  transform: scale(1.1);
 }
 </style>
