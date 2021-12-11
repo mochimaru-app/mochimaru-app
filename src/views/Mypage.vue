@@ -20,7 +20,6 @@
     </div>
 
     <div v-for="(postData, index) in postDatas" v-bind:key="index">
-      <div v-on:click="aaa(index)"></div>
       <div v-if="currentuser">
         <!-- postData.postUser.includes(currentuser) && -->
         {{ currentuser }}<br />
@@ -62,19 +61,19 @@
                 <h1 class="stars">{{ postData.checkValue }}</h1>
                 <!-- {{postData.likeUsers}} -->
 
-                <div v-if="postData.isliked||isliked">
-                  <!-- postData.likeUsers.includes(postData.id) -->
-                  <i
-                    class="fas fa-heart unlike-btn"
-                    @click="unlike(postData.id)"
-                  ></i>
-                </div>
-                <div v-else>
-                  <i
-                    class="fas fa-heart like-btn"
-                    @click="like(postData.id)"
-                  ></i>
-                </div>
+                {{ isliked[index] }}
+                <!-- postData.likeUsers.includes(postData.id) -->
+                <i
+                  v-if="isliked[index] === true "
+                  class="fas fa-heart unlike-btn"
+                  @click="unlike(postData.id,index)"
+                ></i>
+
+                <i
+                  v-else
+                  class="fas fa-heart like-btn"
+                  @click="like(postData.id,index)"
+                ></i>
 
                 <div class="sub-main">
                   <div class="left">
@@ -149,7 +148,7 @@ import firebase from "firebase"
 export default {
   data() {
     return {
-      isliked:"false",
+      isliked:[],
       currentuser: "",
       add: "",
       login: "false",
@@ -181,34 +180,34 @@ export default {
     this.geocoder = new google.maps.Geocoder()
   },
   methods: {
-    like(index) {
+    like(docId,index) {
       console.log(" した")
       firebase
         .firestore()
         .collection("post")
-        .doc(index)
+        .doc(docId)
         .collection("like")
         .doc(this.currentuser)
-        .set({isliked:true})
-      location.reload()
+        .set({ isliked: true })
+        this.isliked[index]=!this.isliked[index]
     },
-    unlike(index) {
-       console.log( "外した" )
+    unlike(docId,index) {
+      console.log("外した")
       firebase
         .firestore()
         .collection("post")
-        .doc(index)
+        .doc(docId)
         .collection("like")
         .doc(this.currentuser)
-        .delete(),
-        firebase
+        .delete()
+      firebase
         .firestore()
         .collection("post")
-        .doc(index)
+        .doc(docId)
         .collection("like")
         .doc(this.currentuser)
-        .set({isliked:false})
-        location.reload()
+        .set({ isliked: false })
+         this.isliked[index]=!this.isliked[index]
     },
     sort(index) {
       switch (index) {
@@ -394,7 +393,7 @@ export default {
       .collection("post")
       .get()
       .then((snapshot) => {
-        snapshot.forEach((doc) => {
+        snapshot.forEach((doc,i) => {
           let postData = {}
           if (doc.data().postUser === this.user.uid) {
             this.login = "true"
@@ -407,12 +406,16 @@ export default {
               .get()
               .then((snapshot) => {
                 snapshot.docs.forEach((doc) => {
-                  if (doc.id == this.currentuser) {
-                    postData = {
-                      ...postData,
-                      ...doc.data(),
+                  if (doc.id === this.currentuser&&doc.data().isliked) {
+                  this.isliked.push(true)
+                  }else{
+                    
+                    if( this.isliked[i]){
+                      this.isliked[i]=false
+                    }else{
+                      this.isliked.push(false)
                     }
-                  }
+                    }
                   console.log(postData)
                 })
               })
@@ -421,7 +424,7 @@ export default {
         })
       })
     this.currentuser = this.user.uid
-    // console.log(this.user.uid)
+    console.log(this.isliked)
   },
   computed: {
     user() {
