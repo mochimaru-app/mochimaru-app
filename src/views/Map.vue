@@ -1,12 +1,5 @@
 <template>
-  <div>
-    <h1>Map</h1>
-    <p>
-      Map上のピンにマウスをかざすと投稿内容が見られます<br />
-      気になるスポットを探して詳細を見てみよう！
-    </p>
-    <div ref="map" style="height: 100vh; width: auto"></div>
-  </div>
+  <div><div ref="map" style="height: 100vh; width: auto"></div></div>
 </template>
 
 <script>

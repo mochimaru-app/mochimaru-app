@@ -3,6 +3,11 @@
     <div v-if="isLoggin">
       ようこそ{{ $auth.currentUser.displayName }}さん
       <a @click="logOut" class="log-out-button"><span>Log Out</span></a>
+      <router-link to="/post">
+        <button id="postButton" class="postButton" onclick="href='/post'">
+          +
+        </button>
+      </router-link>
     </div>
     <div v-else>
       <a @click="login" class="log-in-button"><span>Log In</span></a>
@@ -13,11 +18,6 @@
       <div v-else>No User Signed In</div> -->
     </div>
 
-    <router-link to="/post">
-      <button id="postButton" class="postButton" onclick="href='/post'">
-        +
-      </button>
-    </router-link>
     <!--ハンバーガーメニューのボタン-->
     <div class="hamburger_btn" v-on:click="ActiveBtn = !ActiveBtn">
       <span

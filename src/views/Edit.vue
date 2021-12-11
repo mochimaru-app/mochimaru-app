@@ -8,9 +8,8 @@
           </p>
           <input
             type="text"
-            value=""
-            placeholder=""
-            name="fa"
+            class="Form-Item-Input"
+            placeholder="例）"
             v-model="facility"
           />
         </div>
@@ -112,7 +111,7 @@
               ref="lng"
             />
           </div>
-          <div id="map" style="height: 400px; width: 500px"></div>
+          <div ref="map" id="map" style="height: 400px; width: 500px"></div>
         </div>
 
         <button @click="editFirebase">編集！</button>
@@ -151,7 +150,7 @@ export default {
       picture: "",
       lat: 0,
       lng: 0,
-      map: null,
+      map: "",
       marker: null,
       geocoder: null,
       mapAddress: "",
@@ -164,6 +163,27 @@ export default {
       zoom: 12,
     })
     this.geocoder = new google.maps.Geocoder()
+    let timer = setInterval(() => {
+      if (window.google) {
+        clearInterval(timer)
+
+        let markers = new Array()
+        markers = new window.google.maps.Marker({
+          position: {
+            lat: Number(this.lat),
+            lng: Number(this.lng),
+          },
+          map: this.map,
+        })
+
+        markerInfo(markers)
+      }
+    }, 500)
+    function markerInfo(marker) {
+      window.google.maps.event.addListener(marker, "mouseover", function () {
+        new window.google.maps.InfoWindow({}).open(marker.getMap(), marker)
+      })
+    }
   },
   methods: {
     setError(error, text) {
@@ -221,8 +241,6 @@ export default {
               position: results[0].geometry.location,
               draggable: true,
             })
-            this.lat = results[0].geometry.location.lat()
-            this.lng = results[0].geometry.location.lng()
             // this.add = results[0].geometry.formatted_address
             console.log(results[0].formatted_address)
             this.aft = true
@@ -242,7 +260,7 @@ export default {
         }
       )
     },
-
+    mounted() {},
     editFirebase: function () {
       if (confirm("外部のページへ移動します。よろしいですか？")) {
         // console.log(this.user.uid)
@@ -290,9 +308,6 @@ export default {
         }
       }
     },
-
-   
-   
   },
 
   created() {
@@ -302,14 +317,21 @@ export default {
       .doc(this.postId)
       .get()
       .then((doc) => {
-        console.log(this.postId)  
+        console.log(this.postId)
         console.log(doc.data())
-        this.facility=doc.data().facility
+        this.facility = doc.data().facility
+        this.address = doc.data().address
+        this.money = doc.data().money
+        this.recommend = doc.data().recommend
+        this.avatars = doc.data().avatars
+        this.checkValue = doc.data().checkValue
+        this.lat = doc.data().lat
+        this.lng = doc.data().lng
+        this.likeUsers = doc.data().likeUsers
 
-        // console.log(this.postDatas[0])
+        console.log(this.lat)
       })
     // this.currentUser = this.user.uid
-    
   },
   computed: {
     user() {
@@ -343,7 +365,7 @@ export default {
   width: 400px;
   margin-bottom: 20px;
 }
-.map {
+#map {
   margin: 0px auto;
   margin-top: 20px;
   margin-bottom: 60px;

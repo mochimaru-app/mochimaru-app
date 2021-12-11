@@ -20,7 +20,11 @@
     </div>
 
     <div v-for="(postData, index) in postDatas" v-bind:key="index">
-      <div v-if="postData.edit != 'true'">
+      <div v-on:click="aaa(index)"></div>
+      <div v-if="currentuser">
+        <!-- postData.postUser.includes(currentuser) && -->
+        {{ currentuser }}<br />
+        {{ postData.postUser }}
         <!-- == this.currentUser -->
         <div style="margin: 10px 8%">
           <div
@@ -56,6 +60,21 @@
                 </h3>
                 <h1 class="facility">施設名: {{ postData.facility }}</h1>
                 <h1 class="stars">{{ postData.checkValue }}</h1>
+                <!-- {{postData.likeUsers}} -->
+
+                <div v-if="postData.isliked||isliked">
+                  <!-- postData.likeUsers.includes(postData.id) -->
+                  <i
+                    class="fas fa-heart unlike-btn"
+                    @click="unlike(postData.id)"
+                  ></i>
+                </div>
+                <div v-else>
+                  <i
+                    class="fas fa-heart like-btn"
+                    @click="like(postData.id)"
+                  ></i>
+                </div>
 
                 <div class="sub-main">
                   <div class="left">
@@ -130,11 +149,10 @@ import firebase from "firebase"
 export default {
   data() {
     return {
+      isliked:"false",
+      currentuser: "",
       add: "",
-      // time: "",
       login: "false",
-      edit: "false",
-      // currentUser:"",
       postUser: "",
       avatars: [],
       message: "",
@@ -163,6 +181,35 @@ export default {
     this.geocoder = new google.maps.Geocoder()
   },
   methods: {
+    like(index) {
+      console.log(" した")
+      firebase
+        .firestore()
+        .collection("post")
+        .doc(index)
+        .collection("like")
+        .doc(this.currentuser)
+        .set({isliked:true})
+      location.reload()
+    },
+    unlike(index) {
+       console.log( "外した" )
+      firebase
+        .firestore()
+        .collection("post")
+        .doc(index)
+        .collection("like")
+        .doc(this.currentuser)
+        .delete(),
+        firebase
+        .firestore()
+        .collection("post")
+        .doc(index)
+        .collection("like")
+        .doc(this.currentuser)
+        .set({isliked:false})
+        location.reload()
+    },
     sort(index) {
       switch (index) {
         case 0:
@@ -259,7 +306,7 @@ export default {
               this.marker.setMap(null)
             }
             this.map.setCenter(results[0].geometry.location)
-            console.log(results[0])
+            // console.log(results[0])
             this.marker = new google.maps.Marker({
               map: this.map,
               position: results[0].geometry.location,
@@ -268,7 +315,7 @@ export default {
             this.lat = results[0].geometry.location.lat()
             this.lng = results[0].geometry.location.lng()
             // this.add = results[0].geometry.formatted_address
-            console.log(results[0].formatted_address)
+            // console.log(results[0].formatted_address)
             this.aft = true
             // マーカーのドロップ（ドラッグ終了）時のイベント
             google.maps.event.addListener(
@@ -279,7 +326,7 @@ export default {
                 const lng = ev.latLng.lng()
                 this.lat = lat
                 this.lng = lng
-                console.log(ev)
+                // console.log(ev)
               }.bind(this)
             )
           }
@@ -336,7 +383,7 @@ export default {
         // const getId = this.postDatas[index].id
         firebase.firestore().collection("post").doc(postId).delete()
         this.postDatas.splice(index, 1)
-        console.log(postId)
+        // console.log(postId)
       }
     },
   },
@@ -348,14 +395,33 @@ export default {
       .get()
       .then((snapshot) => {
         snapshot.forEach((doc) => {
+          let postData = {}
           if (doc.data().postUser === this.user.uid) {
             this.login = "true"
-            this.postDatas.push({ ...doc.data() })
+            postData = { ...doc.data() }
+            firebase
+              .firestore()
+              .collection("post")
+              .doc(doc.id)
+              .collection("like")
+              .get()
+              .then((snapshot) => {
+                snapshot.docs.forEach((doc) => {
+                  if (doc.id == this.currentuser) {
+                    postData = {
+                      ...postData,
+                      ...doc.data(),
+                    }
+                  }
+                  console.log(postData)
+                })
+              })
+            this.postDatas.push(postData)
           }
         })
-        console.log(this.postDatas[0].id)
       })
-    // this.currentUser = this.user.uid
+    this.currentuser = this.user.uid
+    // console.log(this.user.uid)
   },
   computed: {
     user() {
@@ -702,5 +768,20 @@ export default {
   cursor: pointer;
   text-decoration: none;
   font-weight: bold;
+}
+.like-btn {
+  width: 25px;
+  height: 30px;
+  font-size: 25px;
+  color: #808080;
+  margin-left: 20px;
+}
+
+.unlike-btn {
+  width: 25px;
+  height: 30px;
+  font-size: 25px;
+  color: #e54747;
+  margin-left: 20px;
 }
 </style>
