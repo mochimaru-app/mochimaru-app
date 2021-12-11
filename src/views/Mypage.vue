@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <h2>一覧</h2>
+    <h1>Mypage</h1>
+    <h2>自分の投稿一覧</h2>
+    <p>自分が投稿した内容を確認できます</p>
     <div id="feas-sort-menu">
       <div class="feas-sort-price">
         <p class="midashi">金額で並び替え</p>
