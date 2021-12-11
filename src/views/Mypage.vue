@@ -15,7 +15,7 @@
       <div class="feas-sort-date">
         <p class="midashi">評価順に並び替え</p>
         <span @click="sort(4)" class="feas-sl-1-up">▲</span>
-        <button @click="sort(5)" class="feas-sl-1-down">▼</button>
+        <span @click="sort(5)" class="feas-sl-1-down">▼</span>
       </div>
     </div>
 
@@ -49,17 +49,19 @@
                   padding: 10px;
                 "
               >
-                {{ postData.time.toDate().getFullYear() }}年{{
-                  postData.time.toDate().getMonth() + 1
-                }}月{{ postData.time.toDate().getDate() }}日
+                <h3>
+                  {{ postData.time.toDate().getFullYear() }}年{{
+                    postData.time.toDate().getMonth() + 1
+                  }}月{{ postData.time.toDate().getDate() }}日
+                </h3>
                 <h1 class="facility">施設名: {{ postData.facility }}</h1>
-                <h2 class="stars">{{ postData.checkValue }}</h2>
+                <h1 class="stars">{{ postData.checkValue }}</h1>
 
                 <div class="sub-main">
                   <div class="left">
                     <div class="left-item">
                       <h3>所在地:</h3>
-                      <p>{{ postData.adress }}</p>
+                      <p>{{ postData.address }}</p>
                     </div>
 
                     <div class="left-item">
@@ -81,7 +83,12 @@
                     </div>
                     <div class="tabContents">
                       <!-- <div v-if="isActive === '1'"> -->
-                      <img class="img" src="postData.avatar" alt="画像・地図" />
+                      <div
+                        v-for="(avatar, index) in postData.avatars"
+                        :key="index"
+                      >
+                        <img class="img" :src="avatar" alt="画像・地図" />
+                      </div>
                       <!-- </div> -->
                       <!-- <div v-else-if="isActive === '2'"> -->
                       マップが表示されるよ～
@@ -89,21 +96,24 @@
                     <!-- </div> -->
                   </div>
                 </div>
-                <button class="delete__button" @click="deleteButton(index,postData.id)">
-                  削除
-                </button>
-                <router-link
-                  :to="{
-                    name: 'Edit',
-                    params: {
-                      postId: postData.id,
-                    },
-                  }"
-                >
-                  <button class="edit__button" @click="editButton(index)">
-                    編集
-                  </button>
-                </router-link>
+                <div class="button-items">
+                  <a
+                    class="delete_button"
+                    @click="deleteButton(index, postData.id)"
+                  >
+                    Delete
+                  </a>
+                  <router-link
+                    :to="{
+                      name: 'Edit',
+                      params: {
+                        postId: postData.id,
+                      },
+                    }"
+                  >
+                    <a class="edit_button" @click="editButton(index)"> Edit </a>
+                  </router-link>
+                </div>
               </div>
             </div>
           </div>
@@ -320,7 +330,6 @@ export default {
         alert("必須項目を埋めてね。")
       }
     },
-  
 
     deleteButton: function (index, postId) {
       if (confirm("外部のページへ移動します。よろしいですか？")) {
@@ -456,7 +465,7 @@ export default {
   width: 48px;
   display: inline-block;
   text-align: center;
-  background: #5bc8ac;
+  background: #5bc8ad91;
   color: #fff;
   font-size: 14px;
 }
@@ -530,7 +539,7 @@ export default {
   width: 280px;
   display: block;
   letter-spacing: 0.05em;
-  background: #5bc8ac;
+  background: #5bc8ad91;
   color: #fff;
   font-weight: bold;
   font-size: 20px;
@@ -580,11 +589,12 @@ export default {
 }
 
 .facility {
-  text-decoration: underline #5bc8ac;
+  text-decoration: underline #5bc8ad91;
 }
 .stars {
-  font-size: 30px;
-  color: #5bc8ac;
+  font-size: 40px;
+  color: #5bc8ad91;
+  -webkit-text-stroke: 0.5px #353535;
 }
 .sub-main {
   display: flex;
@@ -625,11 +635,13 @@ export default {
 #tab li {
   width: auto;
   padding: 10px 20px;
-  color: white;
+  width: 160px;
+  color: #353535;
   list-style: none;
-  background-color: #5bc8ac;
+  background-color: #5bc8ad91;
   cursor: pointer;
   border-radius: 0.75em;
+  font-weight: bold;
 }
 #tab .secondChild {
   border-right: none;
@@ -643,5 +655,52 @@ export default {
   width: 80%;
   height: 80%;
   padding: 10%;
+}
+.button-items {
+  display: flex;
+  justify-content: center;
+}
+.delete_button {
+  display: block;
+  position: relative;
+  margin-right: 10px;
+  width: 160px;
+  padding: 0.8em;
+  text-align: center;
+  text-decoration: none;
+  background: #5bc8ad91;
+  color: #353535;
+  border-radius: 10px;
+  font-weight: bold;
+}
+.delete_button:hover {
+  color: #5bc8ad91;
+  background: #7c7c7c;
+  border: 1px solid #5bc8ad91;
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.edit_button {
+  display: block;
+  position: relative;
+  margin-left: 10px;
+  width: 160px;
+  padding: 0.8em;
+  text-align: center;
+  text-decoration: none;
+  background: #5bc8ad91;
+  color: #353535;
+  border-radius: 10px;
+  font-weight: bold;
+}
+.edit_button:hover {
+  color: #5bc8ad91;
+  background: #7c7c7c;
+  border: 1px solid #5bc8ad91;
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: bold;
 }
 </style>

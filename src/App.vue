@@ -1,12 +1,11 @@
 <template>
   <div id="app">
     <div v-if="isLoggin">
-      ようこそ{{ $auth.currentUser.displayName }}君
-      <button @click="logOut">ログアウト</button>
+      ようこそ{{ $auth.currentUser.displayName }}さん
+      <a @click="logOut" class="log-out-button"><span>Log Out</span></a>
     </div>
     <div v-else>
-      してない
-      <button @click="login">ログイン</button>
+      <a @click="login" class="log-in-button"><span>Log In</span></a>
 
       <!-- <div class="signed-in-user-profile" v-if="user">
       <div>ようこそ{{user.displayName}}</div>
@@ -142,7 +141,49 @@ export default {
   text-align: center;
   color: #2c3e50;
 }
+.log-out-button {
+  display: block;
+  margin: 0 auto;
+  position: relative;
+  width: 160px;
+  padding: 0.8em;
+  text-align: center;
+  text-decoration: none;
+  background: #5bc8ad91;
+  color: #353535;
+  border-radius: 10px;
+  font-weight: bold;
+}
+.log-out-button:hover {
+  color: #5bc8ad91;
+  background: #7c7c7c;
+  border: 1px solid #5bc8ad91;
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: bold;
+}
 
+.log-in-button {
+  display: block;
+  margin: 0 auto;
+  position: relative;
+  width: 160px;
+  padding: 0.8em;
+  text-align: center;
+  text-decoration: none;
+  background: #5bc8ad91;
+  color: #7c7c7c;
+  border-radius: 10px;
+  font-weight: bold;
+}
+.log-in-button:hover {
+  color: #5bc8ad91;
+  background: #7c7c7c;
+  border: 1px solid #5bc8ad91;
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: bold;
+}
 /*ボタン*/
 .hamburger_btn {
   position: fixed; /*常に最上部に表示したいので固定*/
@@ -245,13 +286,14 @@ export default {
 
   /* ボタンの装飾 */
   position: fixed;
-  right: 30px;
-  bottom: 30px;
+  right: 65px;
+  bottom: 20px;
   z-index: 100;
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  background-color: #115582;
+  background-color: #5bc8ad91;
+  color: #353535;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -261,5 +303,8 @@ export default {
 }
 .postButton:hover {
   transform: scale(1.1);
+  color: #5bc8ad91;
+  background: #7c7c7c;
+  border: 1px solid #5bc8ad91;
 }
 </style>
