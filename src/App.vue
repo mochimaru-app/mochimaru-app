@@ -10,7 +10,11 @@
       </router-link>
     </div>
     <div v-else>
-      <a @click="login" class="log-in-button"><span>Log In</span></a>
+      <router-link to="/">
+        <a @click="login" class="log-in-button"
+          ><span>Log In</span></a
+        ></router-link
+      >
 
       <!-- <div class="signed-in-user-profile" v-if="user">
       <div>ようこそ{{user.displayName}}</div>
@@ -58,7 +62,7 @@
           <!-- <router-link to="/about">About</router-link> -->
           <!-- <router-link to="/post">Post</router-link> -->
           <li v-on:click="ActiveBtn = !ActiveBtn">
-            <router-link to="/map"
+            <router-link to="/map/139.7690174/35.6803997"
               ><i class="fas fa-map-marker-alt"></i> Map</router-link
             >
           </li>
@@ -116,7 +120,6 @@ export default {
           if (result.user) {
             this.isLoggin = true
             // $router.push("/About");
-            this.$router.push("/mypage")
           }
         })
     },

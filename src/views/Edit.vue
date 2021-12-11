@@ -4,7 +4,7 @@
       <div class="Form">
         <div class="Form-Item">
           <p class="Form-Item-Label">
-            <span class="Form-Item-Label-Required">必須</span>施設名
+            <span class="Form-Item-Label-Required">必須</span>スポット名
           </p>
           <input
             type="text"
@@ -13,17 +13,7 @@
             v-model="facility"
           />
         </div>
-        <div class="Form-Item">
-          <p class="Form-Item-Label">
-            <span class="Form-Item-Label-Required">必須</span>住所
-          </p>
-          <input
-            type="text"
-            class="Form-Item-Input"
-            placeholder="例）"
-            v-model="address"
-          />
-        </div>
+        
 
         <div class="Form-Item">
           <p class="Form-Item-Label">
@@ -41,7 +31,7 @@
           <p class="Form-Item-Label">
             <span class="Form-Item-Label-Required">必須</span>おすすめポイント
           </p>
-          <input
+          <textarea
             type="text"
             class="Form-Item-Textarea"
             placeholder="例）"
@@ -100,7 +90,7 @@
             >
           </div>
         </div>
-        <div>
+        <div><span class="Form-Item-Label-Required">必須</span>
           <h2>map</h2>
           <input class="search-input" type="text" v-model="mapAddress" />
           <button type="button" @click="mapSearch">検索</button>
@@ -113,8 +103,9 @@
           </div>
           <div ref="map" id="map" style="height: 400px; width: 500px"></div>
         </div>
-
-        <button @click="editFirebase">編集！</button>
+        <router-link to="/mypage">
+        <button @click="editFirebase" >編集！</button>
+        </router-link>
       </div>
     </div>
     <br />
@@ -262,11 +253,11 @@ export default {
     },
     mounted() {},
     editFirebase: function () {
-      if (confirm("外部のページへ移動します。よろしいですか？")) {
+      if (confirm("投稿を編集します。よろしいですか？")) {
         // console.log(this.user.uid)
         // console.log(this.$auth.currentUser.uid)
         const time = new Date()
-        const newDoc = firebase.firestore().collection("post").doc().id
+        const newDoc = this.postId
         const comment = {
           facility: this.facility,
           address: this.address,
@@ -303,6 +294,7 @@ export default {
           this.lat = ""
           this.lng = ""
           firebase.firestore().collection("post").doc(this.postId).delete()
+          this.router.push("/mypage")
         } else {
           alert("必須項目を埋めてね。")
         }
@@ -331,7 +323,6 @@ export default {
 
         console.log(this.lat)
       })
-    // this.currentUser = this.user.uid
   },
   computed: {
     user() {

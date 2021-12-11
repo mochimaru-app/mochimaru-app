@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <h2>一覧</h2>
+    <h2>自分の投稿一覧</h2>
     <div id="feas-sort-menu">
       <div class="feas-sort-price">
         <p class="midashi">金額で並び替え</p>
@@ -19,11 +19,8 @@
       </div>
     </div>
 
-    <div v-for="(postData, index) in postDatas" v-bind:key="index">
-      <div v-if="currentuser">
-        <!-- postData.postUser.includes(currentuser) && -->
-        {{ currentuser }}<br />
-        {{ postData.postUser }}
+    <div v-if="currentuser">
+      <div v-for="(postData, index) in postDatas" v-bind:key="index">
         <!-- == this.currentUser -->
         <div style="margin: 10px 8%">
           <div
@@ -57,29 +54,31 @@
                     postData.time.toDate().getMonth() + 1
                   }}月{{ postData.time.toDate().getDate() }}日
                 </h3>
-                <h1 class="facility">施設名: {{ postData.facility }}</h1>
+                <h1 class="facility">スポット名: {{ postData.facility }}</h1>
                 <h1 class="stars">{{ postData.checkValue }}</h1>
                 <!-- {{postData.likeUsers}} -->
 
-                {{ isliked[index] }}
                 <!-- postData.likeUsers.includes(postData.id) -->
-                <i
-                  v-if="isliked[index] === true "
-                  class="fas fa-heart unlike-btn"
-                  @click="unlike(postData.id,index)"
-                ></i>
-
-                <i
-                  v-else
-                  class="fas fa-heart like-btn"
-                  @click="like(postData.id,index)"
-                ></i>
+                <i v-if="postData.likes > 0" class="fas fa-heart unlike-btn">{{
+                  postData.likes
+                }}</i>
+                <i v-else class="fas fa-heart like-btn"></i>
 
                 <div class="sub-main">
                   <div class="left">
                     <div class="left-item">
                       <h3>所在地:</h3>
-                      <p>{{ postData.address }}</p>
+                      <router-link
+                        :to="{
+                          name: 'Map',
+                          params: {
+                            lng: postData.lng,
+                            lat: postData.lat,
+                          },
+                        }"
+                      >
+                        <p class ="addres">{{ postData.address }}</p>
+                      </router-link>
                     </div>
 
                     <div class="left-item">
@@ -87,7 +86,7 @@
                       <p>{{ postData.money }}</p>
                     </div>
 
-                    <div class="left-item">
+                    <div class="item">
                       <h3>オススメポイント:</h3>
                       <p>{{ postData.recommend }}</p>
                     </div>
@@ -95,23 +94,17 @@
                   <div class="right">
                     <div id="tab">
                       <ul class="tabMenu">
-                        <li @click="isSelect('1')">Image</li>
-                        <li class="secondChild" @click="isSelect('2')">Map</li>
+                        <li>Image</li>
                       </ul>
                     </div>
                     <div class="tabContents">
-                      <!-- <div v-if="isActive === '1'"> -->
                       <div
                         v-for="(avatar, index) in postData.avatars"
                         :key="index"
                       >
                         <img class="img" :src="avatar" alt="画像・地図" />
                       </div>
-                      <!-- </div> -->
-                      <!-- <div v-else-if="isActive === '2'"> -->
-                      マップが表示されるよ～
                     </div>
-                    <!-- </div> -->
                   </div>
                 </div>
                 <div class="button-items">
@@ -138,6 +131,9 @@
         </div>
       </div>
     </div>
+    <div v-else>
+      <h3>ログインして投稿しよう！</h3>
+    </div>
   </div>
 </template>
 
@@ -148,7 +144,7 @@ import firebase from "firebase"
 export default {
   data() {
     return {
-      isliked:[],
+      isliked: [],
       currentuser: "",
       add: "",
       login: "false",
@@ -180,7 +176,7 @@ export default {
     this.geocoder = new google.maps.Geocoder()
   },
   methods: {
-    like(docId,index) {
+    like(docId, index) {
       console.log(" した")
       firebase
         .firestore()
@@ -189,9 +185,9 @@ export default {
         .collection("like")
         .doc(this.currentuser)
         .set({ isliked: true })
-        this.isliked[index]=!this.isliked[index]
+      this.isliked[index] = !this.isliked[index]
     },
-    unlike(docId,index) {
+    unlike(docId, index) {
       console.log("外した")
       firebase
         .firestore()
@@ -207,7 +203,7 @@ export default {
         .collection("like")
         .doc(this.currentuser)
         .set({ isliked: false })
-         this.isliked[index]=!this.isliked[index]
+      this.isliked[index] = !this.isliked[index]
     },
     sort(index) {
       switch (index) {
@@ -378,11 +374,10 @@ export default {
     },
 
     deleteButton: function (index, postId) {
-      if (confirm("外部のページへ移動します。よろしいですか？")) {
+      if (confirm("削除します。よろしいですか？")) {
         // const getId = this.postDatas[index].id
         firebase.firestore().collection("post").doc(postId).delete()
         this.postDatas.splice(index, 1)
-        // console.log(postId)
       }
     },
   },
@@ -393,7 +388,7 @@ export default {
       .collection("post")
       .get()
       .then((snapshot) => {
-        snapshot.forEach((doc,i) => {
+        snapshot.forEach((doc, i) => {
           let postData = {}
           if (doc.data().postUser === this.user.uid) {
             this.login = "true"
@@ -406,16 +401,15 @@ export default {
               .get()
               .then((snapshot) => {
                 snapshot.docs.forEach((doc) => {
-                  if (doc.id === this.currentuser&&doc.data().isliked) {
-                  this.isliked.push(true)
-                  }else{
-                    
-                    if( this.isliked[i]){
-                      this.isliked[i]=false
-                    }else{
+                  if (doc.id === this.currentuser && doc.data().isliked) {
+                    this.isliked.push(true)
+                  } else {
+                    if (this.isliked[i]) {
+                      this.isliked[i] = false
+                    } else {
                       this.isliked.push(false)
                     }
-                    }
+                  }
                   console.log(postData)
                 })
               })
@@ -688,6 +682,13 @@ export default {
 .left-item h3 {
   width: 40%;
 }
+.item {
+  border-top: 1px solid #ddd;
+  padding-top: 24px;
+  padding-bottom: 24px;
+  width: 100%;
+  align-items: center;
+}
 .right {
   width: 35%;
   padding-right: 15%;
@@ -786,5 +787,28 @@ export default {
   font-size: 25px;
   color: #e54747;
   margin-left: 20px;
+}
+
+
+.addres {
+  display: block;
+  margin: 0 auto;
+  position: relative;
+  width: 160px;
+  padding: 0.8em;
+  text-align: center;
+  text-decoration: none;
+  background: #5bc8ad91;
+  color: #7c7c7c;
+  border-radius: 10px;
+  font-weight: bold;
+}
+.addres:hover {
+  color: #5bc8ad91;
+  background: #7c7c7c;
+  border: 1px solid #5bc8ad91;
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: bold;
 }
 </style>

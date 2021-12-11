@@ -28,8 +28,9 @@ const routes = [
     component: () => import("../views/Post.vue"),
   },
   {
-    path: "/map",
+    path: "/map/:lng/:lat",
     name: "Map",
+    props: true,
     component: Map,
   },
   {

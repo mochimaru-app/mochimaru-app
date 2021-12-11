@@ -6,6 +6,14 @@
 import firebase from "firebase"
 
 export default {
+  props: {
+    lat: {
+      type: String,
+    },
+    lng: {
+      type: String,
+    },
+  },
   data() {
     return {
       map: "",
@@ -15,12 +23,14 @@ export default {
   },
   mounted() {
     let timer = setInterval(() => {
+      console.log(this.lat)
       if (window.google) {
         clearInterval(timer)
         this.map = new window.google.maps.Map(this.$refs.map, {
-          center: this.myLatLng,
-          zoom: 12,
+          center: { lat: Number(this.lat), lng: Number(this.lng) },
+          zoom: 9,
         })
+
         let markers = new Array()
         for (let i = 0; i < this.postDatas.length; i++) {
           markers[i] = new window.google.maps.Marker({
@@ -31,20 +41,20 @@ export default {
             map: this.map,
           })
           let contentString =
-            "<p>施設名:" +
+            "<p>スポット名:" +
             this.postDatas[i].facility +
             "</p>" +
             "<p>住所:" +
-            this.postDatas[i].adress +
+            this.postDatas[i].address +
             "</p>" +
             "<p>評価:" +
             this.postDatas[i].checkValue +
             "</p>" +
-            '<p>詳細: <a href="../detail/' +
+            ' <a href="../../detail/' +
             this.postDatas[i].id +
             '">' +
-            "投稿詳細へ</a> " +
-            "</p>"
+            "投稿詳細へ</a> " 
+            
           markerInfo(markers[i], contentString)
         }
       }
@@ -52,7 +62,7 @@ export default {
     function markerInfo(marker, contentString) {
       window.google.maps.event.addListener(marker, "mouseover", function () {
         new window.google.maps.InfoWindow({
-          content: contentString,
+          content:  contentString,
         }).open(marker.getMap(), marker)
       })
     }
@@ -73,3 +83,4 @@ export default {
   },
 }
 </script>
+
