@@ -5,26 +5,16 @@
     <div class="Form">
       <div class="Form-Item">
         <p class="Form-Item-Label">
-          <span class="Form-Item-Label-Required">必須</span>施設名
+          <span class="Form-Item-Label-Required">必須</span>スポット名
         </p>
         <input
           type="text"
           class="Form-Item-Input"
-          placeholder="例）"
+          placeholder="例）東京タワー   /     代々木公園"
           v-model="facility"
         />
       </div>
-      <div class="Form-Item">
-        <p class="Form-Item-Label">
-          <span class="Form-Item-Label-Required">必須</span>住所
-        </p>
-        <input
-          type="text"
-          class="Form-Item-Input"
-          placeholder="例）"
-          v-model="address"
-        />
-      </div>
+     
 
       <div class="Form-Item">
         <p class="Form-Item-Label">
@@ -33,7 +23,7 @@
         <input
           type="text"
           class="Form-Item-Input"
-          placeholder="例）"
+          placeholder="例）大人1200円 子供700円 /公園のため無料！"
           v-model="money"
         />
       </div>
@@ -42,10 +32,12 @@
         <p class="Form-Item-Label">
           <span class="Form-Item-Label-Required">必須</span>おすすめポイント
         </p>
-        <input
+        <textarea
           type="text"
           class="Form-Item-Textarea"
-          placeholder="例）"
+          placeholder="例）高い!
+/訪れたのが土曜日で快晴、暑い気候だったが多く家族連れが木陰にシートを広げお弁当を楽しんだり、ノンビリ休憩したりと長閑で平和な光景がありました。
+当日はイベント広場で毎年恒例のタイ・フェスティバルが開催されており大混雑でしたが、タイ料理、タイビールを美味しく味わいました。"
           v-model="recommend"
         />
       </div>
@@ -101,7 +93,8 @@
         </div>
       </div>
       <div>
-        <h2>map</h2>
+        
+        <h2><span class="Form-Item-Label-Required">必須未実装</span>map</h2>
         <input class="search-input" type="text" v-model="mapAddress" />
         <button type="button" @click="mapSearch">検索</button>
         <div>
@@ -113,8 +106,9 @@
         </div>
         <div id="map" style="height: 400px; width: 500px"></div>
       </div>
-
-      <button v-on:click="post" class="post-button">投稿！</button>
+      <router-link to="/mypage">
+      <button v-on:click="post">投稿！</button>
+      </router-link>
     </div>
   </div>
 </template>
@@ -126,6 +120,7 @@ import firebase from "firebase"
 export default {
   data() {
     return {
+      likes:0,
       add: "",
       // time: "",
       login: "false",
@@ -266,6 +261,7 @@ export default {
             // this.add = results[0].geometry.formatted_address
             console.log(results[0].formatted_address)
             this.aft = true
+            this.address=results[0].formatted_address
             // マーカーのドロップ（ドラッグ終了）時のイベント
             google.maps.event.addListener(
               this.marker,
@@ -300,10 +296,10 @@ export default {
         lng: this.lng,
         id: newDoc,
         time: time,
+        likes:this.likes,
       }
       if (
         this.facility !== "" &&
-        this.address !== "" &&
         this.money !== "" &&
         this.recommend !== ""
         // this.lat !== "" &&
@@ -327,7 +323,7 @@ export default {
       }
     },
     editFirebase: function (index) {
-      if (confirm("外部のページへ移動します。よろしいですか？")) {
+      if (confirm("編集します。よろしいですか？")) {
         this.postDatas[index].edit == "false"
         // console.log(this.user.uid)
         // console.log(this.$auth.currentUser.uid)
@@ -349,7 +345,6 @@ export default {
         }
         if (
           this.facility !== "" &&
-          this.address !== "" &&
           this.money !== "" &&
           this.recommend !== "" &&
           this.lat !== "" &&
@@ -380,18 +375,10 @@ export default {
     },
 
     deleteButton: function (index) {
-      if (confirm("外部のページへ移動します。よろしいですか？")) {
+      if (confirm("投稿を削除します。よろしいですか？")) {
         const getId = this.postDatas[index].id
         firebase.firestore().collection("post").doc(getId).delete()
         this.postDatas.splice(index, 1)
-      }
-    },
-    editButton: function (index) {
-      console.log(this.postDatas[index].edit)
-      if (this.postDatas[index].edit == "false")
-        this.postDatas[index].edit = "true"
-      else {
-        this.postDatas[index].edit = "false"
       }
     },
   },

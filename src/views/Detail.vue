@@ -2,14 +2,41 @@
   <div class="main">
     <div v-for="postData in postDatas" v-bind:key="postData.id">
       <div v-if="$route.params.id === postData.id">
-        <h1 class="facility">施設名: {{ postData.facility }}</h1>
+        <div class="date">
+          投稿日：{{ postData.time.toDate().getFullYear() }}年{{
+            postData.time.toDate().getMonth() + 1
+          }}月{{ postData.time.toDate().getDate() }}日
+        </div>
+        <h1 class="facility">スポット名: {{ postData.facility }}</h1>
         <h2 class="stars">{{ postData.checkValue }}</h2>
 
+        <i
+          v-if="postData.likes"
+          class="fas fa-heart unlike-btn"
+          @click="like(postData.id, postData.likes)"
+        ></i>
+
+        <i
+          v-else
+          class="fas fa-heart like-btn"
+          @click="like(postData.id, postData.likes)"
+        ></i>
+        {{ postData.likes }}
         <div class="sub-main">
           <div class="left">
             <div class="left-item">
               <h3>所在地:</h3>
-              <p>{{ postData.address }}</p>
+              <router-link
+                :to="{
+                  name: 'Map',
+                  params: {
+                    lng: postData.lng,
+                    lat: postData.lat,
+                  },
+                }"
+              >
+                <p class="addres">{{ postData.address }}</p>
+              </router-link>
             </div>
 
             <div class="left-item">
@@ -23,10 +50,9 @@
             </div>
           </div>
           <div class="right">
-            <div id="tab">
+            <div class="tab">
               <ul class="tabMenu">
-                <li @click="isSelect('1')">Image</li>
-                <li class="secondChild" @click="isSelect('2')">Map</li>
+                <li>Image</li>
               </ul>
             </div>
             <div class="tabContents">
@@ -38,12 +64,6 @@
               <div v-else-if="isActive === '2'">マップが表示されるよ～</div>
             </div>
           </div>
-        </div>
-
-        <div class="date">
-          投稿日：{{ postData.time.toDate().getFullYear() }}年{{
-            postData.time.toDate().getMonth()
-          }}月{{ postData.time.toDate().getDate() }}日
         </div>
       </div>
     </div>
@@ -63,6 +83,14 @@ export default {
   methods: {
     isSelect: function (num) {
       this.isActive = num
+    },
+    like(docId, likeCount) {
+      const count = likeCount + 1
+      console.log(" した")
+      firebase.firestore().collection("post").doc(docId).update({
+        likes: count,
+      })
+      location.reload()
     },
   },
   created() {
@@ -118,16 +146,16 @@ export default {
   width: 35%;
   padding-right: 15%;
 }
-#tab {
+.tab {
   width: 100%;
   margin: 0 auto;
 }
-#tab .tabMenu {
+.tab .tabMenu {
   display: flex;
   justify-content: center;
   margin: 0;
 }
-#tab li {
+.tab li {
   width: auto;
   padding: 10px 20px;
   width: 160px;
@@ -138,15 +166,7 @@ export default {
   border-radius: 0.75em;
   font-weight: bold;
 }
-#tab li:hover {
-  color: #5bc8ad91;
-  background: #7c7c7c;
-  border: 1px solid #5bc8ad91;
-  cursor: pointer;
-  text-decoration: none;
-  font-weight: bold;
-}
-#tab .secondChild {
+.tab .secondChild {
   border-right: none;
   margin-left: 20%;
 }
@@ -158,5 +178,43 @@ export default {
   width: 80%;
   height: 80%;
   padding: 10%;
+}
+
+.like-btn {
+  width: 25px;
+  height: 30px;
+  font-size: 25px;
+  color: #808080;
+  margin-left: 20px;
+}
+
+.unlike-btn {
+  width: 25px;
+  height: 30px;
+  font-size: 25px;
+  color: #e54747;
+  margin-left: 20px;
+}
+
+.addres {
+  display: block;
+  margin: 0 auto;
+  position: relative;
+  width: 160px;
+  padding: 0.8em;
+  text-align: center;
+  text-decoration: none;
+  background: #5bc8ad91;
+  color: #7c7c7c;
+  border-radius: 10px;
+  font-weight: bold;
+}
+.addres:hover {
+  color: #5bc8ad91;
+  background: #7c7c7c;
+  border: 1px solid #5bc8ad91;
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: bold;
 }
 </style>

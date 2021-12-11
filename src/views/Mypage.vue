@@ -21,8 +21,8 @@
       </div>
     </div>
 
-    <div v-for="(postData, index) in postDatas" v-bind:key="index">
-      <div v-if="postData.edit != 'true'">
+    <div v-if="currentuser">
+      <div v-for="(postData, index) in postDatas" v-bind:key="index">
         <!-- == this.currentUser -->
         <div style="margin: 10px 8%">
           <div
@@ -56,14 +56,31 @@
                     postData.time.toDate().getMonth() + 1
                   }}月{{ postData.time.toDate().getDate() }}日
                 </h3>
-                <h1 class="facility">施設名: {{ postData.facility }}</h1>
+                <h1 class="facility">スポット名: {{ postData.facility }}</h1>
                 <h1 class="stars">{{ postData.checkValue }}</h1>
+                <!-- {{postData.likeUsers}} -->
+
+                <!-- postData.likeUsers.includes(postData.id) -->
+                <i v-if="postData.likes > 0" class="fas fa-heart unlike-btn">{{
+                  postData.likes
+                }}</i>
+                <i v-else class="fas fa-heart like-btn"></i>
 
                 <div class="sub-main">
                   <div class="left">
                     <div class="left-item">
                       <h3>所在地:</h3>
-                      <p>{{ postData.address }}</p>
+                      <router-link
+                        :to="{
+                          name: 'Map',
+                          params: {
+                            lng: postData.lng,
+                            lat: postData.lat,
+                          },
+                        }"
+                      >
+                        <p class ="addres">{{ postData.address }}</p>
+                      </router-link>
                     </div>
 
                     <div class="left-item">
@@ -71,7 +88,7 @@
                       <p>{{ postData.money }}</p>
                     </div>
 
-                    <div class="left-item">
+                    <div class="item">
                       <h3>オススメポイント:</h3>
                       <p>{{ postData.recommend }}</p>
                     </div>
@@ -79,23 +96,17 @@
                   <div class="right">
                     <div id="tab">
                       <ul class="tabMenu">
-                        <li @click="isSelect('1')">Image</li>
-                        <li class="secondChild" @click="isSelect('2')">Map</li>
+                        <li>Image</li>
                       </ul>
                     </div>
                     <div class="tabContents">
-                      <!-- <div v-if="isActive === '1'"> -->
                       <div
                         v-for="(avatar, index) in postData.avatars"
                         :key="index"
                       >
                         <img class="img" :src="avatar" alt="画像・地図" />
                       </div>
-                      <!-- </div> -->
-                      <!-- <div v-else-if="isActive === '2'"> -->
-                      マップが表示されるよ～
                     </div>
-                    <!-- </div> -->
                   </div>
                 </div>
                 <div class="button-items">
@@ -122,6 +133,9 @@
         </div>
       </div>
     </div>
+    <div v-else>
+      <h3>ログインして投稿しよう！</h3>
+    </div>
   </div>
 </template>
 
@@ -132,11 +146,10 @@ import firebase from "firebase"
 export default {
   data() {
     return {
+      isliked: [],
+      currentuser: "",
       add: "",
-      // time: "",
       login: "false",
-      edit: "false",
-      // currentUser:"",
       postUser: "",
       avatars: [],
       message: "",
@@ -165,6 +178,35 @@ export default {
     this.geocoder = new google.maps.Geocoder()
   },
   methods: {
+    like(docId, index) {
+      console.log(" した")
+      firebase
+        .firestore()
+        .collection("post")
+        .doc(docId)
+        .collection("like")
+        .doc(this.currentuser)
+        .set({ isliked: true })
+      this.isliked[index] = !this.isliked[index]
+    },
+    unlike(docId, index) {
+      console.log("外した")
+      firebase
+        .firestore()
+        .collection("post")
+        .doc(docId)
+        .collection("like")
+        .doc(this.currentuser)
+        .delete()
+      firebase
+        .firestore()
+        .collection("post")
+        .doc(docId)
+        .collection("like")
+        .doc(this.currentuser)
+        .set({ isliked: false })
+      this.isliked[index] = !this.isliked[index]
+    },
     sort(index) {
       switch (index) {
         case 0:
@@ -261,7 +303,7 @@ export default {
               this.marker.setMap(null)
             }
             this.map.setCenter(results[0].geometry.location)
-            console.log(results[0])
+            // console.log(results[0])
             this.marker = new google.maps.Marker({
               map: this.map,
               position: results[0].geometry.location,
@@ -270,7 +312,7 @@ export default {
             this.lat = results[0].geometry.location.lat()
             this.lng = results[0].geometry.location.lng()
             // this.add = results[0].geometry.formatted_address
-            console.log(results[0].formatted_address)
+            // console.log(results[0].formatted_address)
             this.aft = true
             // マーカーのドロップ（ドラッグ終了）時のイベント
             google.maps.event.addListener(
@@ -281,7 +323,7 @@ export default {
                 const lng = ev.latLng.lng()
                 this.lat = lat
                 this.lng = lng
-                console.log(ev)
+                // console.log(ev)
               }.bind(this)
             )
           }
@@ -334,11 +376,10 @@ export default {
     },
 
     deleteButton: function (index, postId) {
-      if (confirm("外部のページへ移動します。よろしいですか？")) {
+      if (confirm("削除します。よろしいですか？")) {
         // const getId = this.postDatas[index].id
         firebase.firestore().collection("post").doc(postId).delete()
         this.postDatas.splice(index, 1)
-        console.log(postId)
       }
     },
   },
@@ -349,15 +390,37 @@ export default {
       .collection("post")
       .get()
       .then((snapshot) => {
-        snapshot.forEach((doc) => {
+        snapshot.forEach((doc, i) => {
+          let postData = {}
           if (doc.data().postUser === this.user.uid) {
             this.login = "true"
-            this.postDatas.push({ ...doc.data() })
+            postData = { ...doc.data() }
+            firebase
+              .firestore()
+              .collection("post")
+              .doc(doc.id)
+              .collection("like")
+              .get()
+              .then((snapshot) => {
+                snapshot.docs.forEach((doc) => {
+                  if (doc.id === this.currentuser && doc.data().isliked) {
+                    this.isliked.push(true)
+                  } else {
+                    if (this.isliked[i]) {
+                      this.isliked[i] = false
+                    } else {
+                      this.isliked.push(false)
+                    }
+                  }
+                  console.log(postData)
+                })
+              })
+            this.postDatas.push(postData)
           }
         })
-        console.log(this.postDatas[0].id)
       })
-    // this.currentUser = this.user.uid
+    this.currentuser = this.user.uid
+    console.log(this.isliked)
   },
   computed: {
     user() {
@@ -621,6 +684,13 @@ export default {
 .left-item h3 {
   width: 40%;
 }
+.item {
+  border-top: 1px solid #ddd;
+  padding-top: 24px;
+  padding-bottom: 24px;
+  width: 100%;
+  align-items: center;
+}
 .right {
   width: 35%;
   padding-right: 15%;
@@ -698,6 +768,44 @@ export default {
   font-weight: bold;
 }
 .edit_button:hover {
+  color: #5bc8ad91;
+  background: #7c7c7c;
+  border: 1px solid #5bc8ad91;
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: bold;
+}
+.like-btn {
+  width: 25px;
+  height: 30px;
+  font-size: 25px;
+  color: #808080;
+  margin-left: 20px;
+}
+
+.unlike-btn {
+  width: 25px;
+  height: 30px;
+  font-size: 25px;
+  color: #e54747;
+  margin-left: 20px;
+}
+
+
+.addres {
+  display: block;
+  margin: 0 auto;
+  position: relative;
+  width: 160px;
+  padding: 0.8em;
+  text-align: center;
+  text-decoration: none;
+  background: #5bc8ad91;
+  color: #7c7c7c;
+  border-radius: 10px;
+  font-weight: bold;
+}
+.addres:hover {
   color: #5bc8ad91;
   background: #7c7c7c;
   border: 1px solid #5bc8ad91;
