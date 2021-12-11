@@ -38,21 +38,6 @@
           <img src="../../public/home_Map.png" alt="" class="content-img" />
         </div>
       </div>
-      <div class="content" id="content3">
-        <div class="text">
-          <h2>あなただけの<br />「行きたいリスト」を作ろう</h2>
-          <p class="detail-text">
-            行ってみたいスポットを見つけたら、「行きたい！」ボタンを押しましょう<br />
-            Mypageからあなたの「行きたいリスト」を確認できます
-          </p>
-          <router-link to="mypage" class="button"
-            >Mypage <i class="fas fa-angle-right"></i
-          ></router-link>
-        </div>
-        <div class="image">
-          <img src="../../public/home_List.png" alt="" class="content-img" />
-        </div>
-      </div>
     </div>
   </div>
 </template>
