@@ -1,5 +1,12 @@
 <template>
-  <div><div ref="map" style="height: 100vh; width: auto"></div></div>
+  <div>
+    <h1>Map</h1>
+    <p>
+      Map上のピンにマウスをかざすと投稿内容が見られます<br />
+      気になるスポットを探して詳細を見てみよう！
+    </p>
+    <div ref="map" style="height: 100vh; width: auto"></div>
+  </div>
 </template>
 
 <script>
@@ -53,8 +60,8 @@ export default {
             ' <a href="../../detail/' +
             this.postDatas[i].id +
             '">' +
-            "投稿詳細へ</a> " 
-            
+            "投稿詳細へ</a> "
+
           markerInfo(markers[i], contentString)
         }
       }
@@ -62,7 +69,7 @@ export default {
     function markerInfo(marker, contentString) {
       window.google.maps.event.addListener(marker, "mouseover", function () {
         new window.google.maps.InfoWindow({
-          content:  contentString,
+          content: contentString,
         }).open(marker.getMap(), marker)
       })
     }
@@ -83,4 +90,3 @@ export default {
   },
 }
 </script>
-
