@@ -2,9 +2,9 @@
   <div class="home">
     <div class="title">
       <div>
-          <img src="../../public/home_top.png" alt="" class="top-img">
-          <p class="theme">おすすめスポット シェアリングサービス</p>
-          <h1 class="app-title">しぇあすぽ</h1>
+        <img src="../../public/home_top.png" alt="" class="top-img" />
+        <p class="theme">おすすめスポット シェアリングサービス</p>
+        <h1 class="app-title">しぇあすぽ</h1>
       </div>
     </div>
     <div class="introduction">
@@ -15,9 +15,16 @@
             あなたが訪れたことがある、おすすめのスポットをみんなにシェアしましょう<br />
             おすすめポイントや星評価でポイントをアピールできます
           </p>
-          <router-link to="/post" class="button"
-            >Post <i class="fas fa-angle-right"></i
-          ></router-link>
+          <div v-if="user.uid">
+            <router-link to="/post" class="button"
+              >Post <i class="fas fa-angle-right"></i
+            ></router-link>
+          </div>
+          <div v-else>
+            <div  class="button"
+              > ログインして投稿しよう！<i class="fas fa-angle-right"></i
+            ></div>
+          </div>
         </div>
         <div class="image">
           <img src="../../public/home_Share.png" alt="" class="content-img" />
@@ -52,6 +59,17 @@
 //     HelloWorld,
 //   },
 // }
+
+export default {
+  computed: {
+    user() {
+      return this.$auth.currentUser
+    },
+  },
+  created(){
+     console.log(this.user)
+  },
+}
 </script>
 <style scoped>
 h1 {
