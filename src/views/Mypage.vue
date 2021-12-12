@@ -1,21 +1,35 @@
 <template>
   <div id="app">
+    <h1>Mypage</h1>
     <h2>自分の投稿一覧</h2>
+    <p>自分の投稿を確認し、編集、削除できます</p>
     <div id="feas-sort-menu">
       <div class="feas-sort-price">
         <p class="midashi">金額で並び替え</p>
-        <span @click="sort(0)" class="feas-sl-1-up">▲</span>
-        <span @click="sort(1)" class="feas-sl-1-down">▼</span>
+        <button @click="sort(0)" class="feas-sl-1-up">
+          <i class="fas fa-chevron-up"></i>
+        </button>
+        <button @click="sort(1)" class="feas-sl-1-down">
+          <i class="fas fa-chevron-down"></i>
+        </button>
       </div>
       <div class="feas-sort-star">
         <p class="midashi">投稿順に並び替え</p>
-        <span @click="sort(2)" class="feas-sl-1-up">▲</span>
-        <span @click="sort(3)" class="feas-sl-1-down">▼</span>
+        <button @click="sort(2)" class="feas-sl-1-up">
+          <i class="fas fa-chevron-up"></i>
+        </button>
+        <button @click="sort(3)" class="feas-sl-1-down">
+          <i class="fas fa-chevron-down"></i>
+        </button>
       </div>
       <div class="feas-sort-date">
         <p class="midashi">評価順に並び替え</p>
-        <span @click="sort(4)" class="feas-sl-1-up">▲</span>
-        <span @click="sort(5)" class="feas-sl-1-down">▼</span>
+        <button @click="sort(4)" class="feas-sl-1-up">
+          <i class="fas fa-chevron-up"></i>
+        </button>
+        <button @click="sort(5)" class="feas-sl-1-down">
+          <i class="fas fa-chevron-down"></i>
+        </button>
       </div>
     </div>
 
@@ -77,7 +91,7 @@
                           },
                         }"
                       >
-                        <p class ="addres">{{ postData.address }}</p>
+                        <p class="addres">{{ postData.address }}</p>
                       </router-link>
                     </div>
 
@@ -429,6 +443,27 @@ export default {
 </script>
 
 <style scoped>
+button {
+  position: relative;
+  float: center;
+  margin: 10px;
+  border-radius: 3px;
+  font-size: 20px;
+  color: #fff;
+  text-decoration: none;
+  background-color: #5bc8ac;
+  border: none;
+  border-bottom: 5px solid #47a08a;
+  -webkit-transition: all 0.1s;
+  transition: all 0.1s;
+}
+button:hover,
+button:active {
+  -webkit-transform: translate(0px, 5px);
+  -ms-transform: translate(0px, 5px);
+  transform: translate(0px, 5px);
+  border-bottom: 1px solid #2ecc71;
+}
 .stars {
   display: flex;
   flex-direction: row-reverse;
@@ -789,7 +824,6 @@ export default {
   margin-left: 20px;
 }
 
-
 .addres {
   display: block;
   margin: 0 auto;
@@ -817,25 +851,25 @@ export default {
   height: 400px;
   overflow: hidden;
 }
- 
-@keyframes slideshow{
-  0%{
+
+@keyframes slideshow {
+  0% {
     opacity: 0;
   }
-  10%{
+  10% {
     opacity: 1;
   }
-  28%{
-    opacity: 1
-  }
-  38%{
+  28% {
     opacity: 1;
   }
-  100%{
+  38% {
+    opacity: 1;
+  }
+  100% {
     opacity: 1;
   }
 }
- 
+
 .slide img {
   position: absolute;
   top: 50%;
@@ -844,15 +878,14 @@ export default {
   width: 100%;
   height: auto;
   opacity: 0;
-  animation :slideshow 8s linear infinite;
+  animation: slideshow 8s linear infinite;
 }
- 
-.slide img:nth-child(2){
+
+.slide img:nth-child(2) {
   animation-delay: 8s;
 }
- 
-.slide img:last-child{
+
+.slide img:last-child {
   animation-delay: 8s;
 }
- 
 </style>
