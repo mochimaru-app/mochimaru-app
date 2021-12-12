@@ -1,7 +1,9 @@
 <template>
   <div>
-    <h1>Post</h1>
-    <p>あなたのおすすめスポットを投稿して共有しよう！</p>
+    <div class="title-field">
+      <h1 class="title">Post</h1>
+      <p class="intro">あなたのおすすめスポットを投稿して共有しよう！</p>
+    </div>
     <div class="Form">
       <div class="Form-Item">
         <p class="Form-Item-Label">
@@ -93,8 +95,15 @@
       </div>
       <div>
         <h2><span class="Form-Item-Label-Required">必須未実装</span>map</h2>
-        <input class="search-input" type="text" v-model="mapAddress" />
-        <button type="button" @click="mapSearch">検索</button>
+        <input
+          class="search-input Form-Item-Input"
+          type="text"
+          v-model="mapAddress"
+          placeholder="スポットの名前で検索！"
+        />
+        <button type="button" @click="mapSearch" class="search-button">
+          検索
+        </button>
         <div>
           緯度：<input type="text" v-model="lat" ref="lat" /> 経度：<input
             type="text"
@@ -102,6 +111,7 @@
             ref="lng"
           />
         </div>
+        <p>検索後にマーカーをドラッグして位置を調整できます</p>
         <div id="map" style="height: 400px; width: 500px"></div>
       </div>
       <router-link to="/mypage">
@@ -406,6 +416,18 @@ export default {
 </script>
 
 <style scoped>
+.title-field {
+  background-image: url(../../public/back-img.png);
+  background-repeat: repeat;
+  background-color: rgba(255, 255, 255, 0.7);
+  background-blend-mode: lighten;
+}
+.title {
+  padding-top: 1.5rem;
+}
+.intro {
+  padding-bottom: 1.5rem;
+}
 .stars {
   display: flex;
   flex-direction: row-reverse;
@@ -530,7 +552,7 @@ export default {
   max-width: 410px;
   background: #eaedf2;
   font-size: 18px;
-  border: 7px solid #59c98f;
+  border: 3px solid #5bc8ac;
 }
 @media screen and (max-width: 480px) {
   .Form-Item-Input {
@@ -560,7 +582,7 @@ export default {
   max-width: 410px;
   background: #eaedf2;
   font-size: 18px;
-  border: 7px solid #59c98f;
+  border: 3px solid #5bc8ac;
 }
 @media screen and (max-width: 480px) {
   .Form-Item-Textarea {
@@ -695,15 +717,29 @@ export default {
   height: 80%;
   padding: 10%;
 }
+.search-button {
+  margin-left: 20px;
+  padding: 2%;
+  background-color: #5bc8ac;
+  color: white;
+  border: 1px solid white;
+  border-radius: 4px;
+  transition: 0.5s;
+}
+.search-button:hover {
+  background-color: #5cebc7;
+}
 .post-button {
   display: inline-block;
   padding: 12px 24px;
+  margin-bottom: 50px;
   border: 1px solid #4f4f4f;
   border-radius: 4px;
   transition: all 0.2s ease-in;
   position: relative;
   overflow: hidden;
   font-size: 19px;
+  background-color: white;
   color: black;
   z-index: 1;
 }
