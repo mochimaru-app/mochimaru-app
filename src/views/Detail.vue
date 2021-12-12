@@ -204,7 +204,7 @@ export default {
   margin-top: 50px;
 }
 .back {
-  height: 220px;
+  height: 300px;
 }
 .in {
   display: flex;
