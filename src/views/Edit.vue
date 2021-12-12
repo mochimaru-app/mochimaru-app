@@ -1,5 +1,9 @@
 <template>
   <div id="app">
+    <div class="title-field">
+      <h1 class="title">Edit</h1>
+      <p class="intro">おすすめスポットを編集できます！</p>
+    </div>
     <div>
       <div class="Form">
         <div class="Form-Item">
@@ -89,10 +93,18 @@
             >
           </div>
         </div>
-        <div><span class="Form-Item-Label-Required">必須</span>
+        <div>
+          <span class="Form-Item-Label-Required">必須</span>
           <h2>map</h2>
-          <input class="search-input" type="text" v-model="mapAddress" />
-          <button type="button" @click="mapSearch">検索</button>
+          <input
+            class="search-input Form-Item-Input"
+            type="text"
+            v-model="mapAddress"
+            placeholder="スポットの名前で検索！"
+          />
+          <button type="button" @click="mapSearch" class="search-button">
+            検索
+          </button>
           <div>
             緯度：<input type="text" v-model="lat" ref="lat" /> 経度：<input
               type="text"
@@ -103,7 +115,7 @@
           <div ref="map" id="map" style="height: 400px; width: 500px"></div>
         </div>
         <router-link to="/mypage">
-        <button @click="editFirebase" class="edit-button" >編集！</button>
+          <button @click="editFirebase" class="edit-button">編集！</button>
         </router-link>
       </div>
     </div>
@@ -332,6 +344,18 @@ export default {
 </script>
 
 <style scoped>
+.title-field {
+  background-image: url(../../public/back-img.png);
+  background-repeat: repeat;
+  background-color: rgba(255, 255, 255, 0.7);
+  background-blend-mode: lighten;
+}
+.title {
+  padding-top: 1.5rem;
+}
+.intro {
+  padding-bottom: 1.5rem;
+}
 .stars {
   display: flex;
   flex-direction: row-reverse;
@@ -456,7 +480,7 @@ export default {
   max-width: 410px;
   background: #eaedf2;
   font-size: 18px;
-  border: 7px solid #59c98f;
+  border: 3px solid #59c98f;
 }
 @media screen and (max-width: 480px) {
   .Form-Item-Input {
@@ -486,7 +510,7 @@ export default {
   max-width: 410px;
   background: #eaedf2;
   font-size: 18px;
-  border: 7px solid #59c98f;
+  border: 3px solid #59c98f;
 }
 @media screen and (max-width: 480px) {
   .Form-Item-Textarea {
@@ -620,6 +644,18 @@ export default {
   width: 80%;
   height: 80%;
   padding: 10%;
+}
+.search-button {
+  margin-left: 20px;
+  padding: 2%;
+  background-color: #5bc8ac;
+  color: white;
+  border: 1px solid white;
+  border-radius: 4px;
+  transition: 0.5s;
+}
+.search-button:hover {
+  background-color: #5cebc7;
 }
 .edit-button {
   display: inline-block;
