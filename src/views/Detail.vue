@@ -34,6 +34,7 @@
                     lat: postData.lat,
                   },
                 }"
+                style="text-decoration: none"
               >
                 <p class="addres">{{ postData.address }}</p>
               </router-link>
@@ -58,7 +59,7 @@
             <div class="tabContents">
               <div v-if="isActive === '1'">
                 <div class="out">
-                  <img src="" alt="" class="back"/>
+                  <img src="" alt="" class="back" />
                   <div class="in">
                     <div
                       v-for="(avatar, index) in postData.avatars"

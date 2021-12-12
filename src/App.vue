@@ -2,7 +2,9 @@
   <div id="app">
     <div v-if="user.uid">
       ようこそ{{ $auth.currentUser.displayName }}さん
-      <a @click="logOut" class="log-out-button"><span>Log Out</span></a>
+       <router-link to="/">
+      <a @click="logOut" class="log-out-button"><span>Log Out</span></a></router-link
+      >
       <router-link to="/post">
         <button id="postButton" class="postButton" onclick="href='/post'">
           +
@@ -107,7 +109,7 @@ export default {
     },
     logOut() {
       firebase.auth().signOut().then()
-      location.reload(true)
+      // location.reload(true)
     },
   },
 }
