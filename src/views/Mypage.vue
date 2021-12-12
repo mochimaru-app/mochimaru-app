@@ -6,15 +6,6 @@
       <p class="intro">自分の投稿を確認し、編集、削除できます</p>
     </div>
     <div id="feas-sort-menu">
-      <div class="feas-sort-price">
-        <p class="midashi">金額で並び替え</p>
-        <button @click="sort(0)" class="feas-sl-1-up">
-          <i class="fas fa-chevron-up"></i>
-        </button>
-        <button @click="sort(1)" class="feas-sl-1-down">
-          <i class="fas fa-chevron-down"></i>
-        </button>
-      </div>
       <div class="feas-sort-star">
         <p class="midashi">投稿順に並び替え</p>
         <button @click="sort(2)" class="feas-sl-1-up">
@@ -247,20 +238,6 @@ export default {
     },
     sort(index) {
       switch (index) {
-        case 0:
-          this.postDatas.sort(function (a, b) {
-            if (a.money < b.money) return 1
-            if (a.money > b.money) return -1
-            return 0
-          })
-          break
-        case 1:
-          this.postDatas.sort(function (a, b) {
-            if (a.money < b.money) return -1
-            if (a.money > b.money) return 1
-            return 0
-          })
-          break
         case 2:
           this.postDatas.sort(function (a, b) {
             if (a.time.seconds < b.time.seconds) return -1

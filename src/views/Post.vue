@@ -94,7 +94,7 @@
         </div>
       </div>
       <div>
-        <h2><span class="Form-Item-Label-Required">必須未実装</span>map</h2>
+        <h2><span class="Form-Item-Label-Required">必須</span>map</h2>
         <input
           class="search-input Form-Item-Input"
           type="text"
@@ -309,9 +309,9 @@ export default {
       if (
         this.facility !== "" &&
         this.money !== "" &&
-        this.recommend !== ""
-        // this.lat !== "" &&
-        // this.lng !== ""
+        this.recommend !== "" &&
+        this.lat !== "" &&
+        this.lng !== ""
       ) {
         firebase.firestore().collection("post").doc(newDoc).set(comment)
         this.id += 1

@@ -45,7 +45,7 @@
               <p>{{ postData.money }}</p>
             </div>
 
-            <div class="left-item">
+            <div class="item">
               <h3>オススメポイント:</h3>
               <p>{{ postData.recommend }}</p>
             </div>
@@ -167,6 +167,13 @@ export default {
 }
 .left-item h3 {
   width: 40%;
+}
+.item {
+  border-top: 1px solid #ddd;
+  padding-top: 24px;
+  padding-bottom: 24px;
+  width: 100%;
+  align-items: center;
 }
 .right {
   width: 35%;
