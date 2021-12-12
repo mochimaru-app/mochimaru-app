@@ -21,9 +21,9 @@
             ></router-link>
           </div>
           <div v-else>
-            <div  class="button"
-              > ログインして投稿しよう！<i class="fas fa-angle-right"></i
-            ></div>
+            <div class="button"  @click="login">
+              ログインして投稿しよう！<i class="fas fa-angle-right"></i>
+            </div>
           </div>
         </div>
         <div class="image">
@@ -37,7 +37,7 @@
             Map上でみんなの投稿したおすすめスポットを見ることができます<br />
             気になった投稿は詳細を見てリサーチしてみましょう
           </p>
-          <router-link to="/map" class="button"
+          <router-link to="/map/139.7690174/35.6803997" class="button"
             >Map <i class="fas fa-angle-right"></i
           ></router-link>
         </div>
@@ -59,15 +59,29 @@
 //     HelloWorld,
 //   },
 // }
-
+import firebase from "firebase"
 export default {
+  methods: {
+    login() {
+      const provider = new firebase.auth.GoogleAuthProvider()
+      firebase
+        .auth()
+        .signInWithPopup(provider)
+        .then((result) => {
+          console.log({ result })
+          if (result.user) {
+            this.isLogin = true
+          }
+        })
+    },
+  },
   computed: {
     user() {
       return this.$auth.currentUser
     },
   },
-  created(){
-     console.log(this.user)
+  created() {
+    console.log(this.user.uid)
   },
 }
 </script>
