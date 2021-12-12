@@ -14,7 +14,6 @@
           v-model="facility"
         />
       </div>
-     
 
       <div class="Form-Item">
         <p class="Form-Item-Label">
@@ -93,7 +92,6 @@
         </div>
       </div>
       <div>
-        
         <h2><span class="Form-Item-Label-Required">必須未実装</span>map</h2>
         <input class="search-input" type="text" v-model="mapAddress" />
         <button type="button" @click="mapSearch">検索</button>
@@ -107,7 +105,7 @@
         <div id="map" style="height: 400px; width: 500px"></div>
       </div>
       <router-link to="/mypage">
-      <button v-on:click="post">投稿！</button>
+        <button v-on:click="post" class="post-button">投稿！</button>
       </router-link>
     </div>
   </div>
@@ -120,7 +118,7 @@ import firebase from "firebase"
 export default {
   data() {
     return {
-      likes:0,
+      likes: 0,
       add: "",
       // time: "",
       login: "false",
@@ -261,7 +259,7 @@ export default {
             // this.add = results[0].geometry.formatted_address
             console.log(results[0].formatted_address)
             this.aft = true
-            this.address=results[0].formatted_address
+            this.address = results[0].formatted_address
             // マーカーのドロップ（ドラッグ終了）時のイベント
             google.maps.event.addListener(
               this.marker,
@@ -296,7 +294,7 @@ export default {
         lng: this.lng,
         id: newDoc,
         time: time,
-        likes:this.likes,
+        likes: this.likes,
       }
       if (
         this.facility !== "" &&
@@ -532,6 +530,7 @@ export default {
   max-width: 410px;
   background: #eaedf2;
   font-size: 18px;
+  border: 7px solid #59c98f;
 }
 @media screen and (max-width: 480px) {
   .Form-Item-Input {
@@ -561,6 +560,7 @@ export default {
   max-width: 410px;
   background: #eaedf2;
   font-size: 18px;
+  border: 7px solid #59c98f;
 }
 @media screen and (max-width: 480px) {
   .Form-Item-Textarea {
@@ -696,62 +696,62 @@ export default {
   padding: 10%;
 }
 .post-button {
- display: inline-block;
- padding: 12px 24px;
- border: 1px solid #4f4f4f;
- border-radius: 4px;
- transition: all 0.2s ease-in;
- position: relative;
- overflow: hidden;
- font-size: 19px;
- color: black;
- z-index: 1;
+  display: inline-block;
+  padding: 12px 24px;
+  border: 1px solid #4f4f4f;
+  border-radius: 4px;
+  transition: all 0.2s ease-in;
+  position: relative;
+  overflow: hidden;
+  font-size: 19px;
+  color: black;
+  z-index: 1;
 }
 
 .post-button:before {
- content: "";
- position: absolute;
- left: 50%;
- transform: translateX(-50%) scaleY(1) scaleX(1.25);
- top: 100%;
- width: 140%;
- height: 180%;
- background-color: rgba(0, 0, 0, 0.05);
- border-radius: 50%;
- display: block;
- transition: all 0.5s 0.1s cubic-bezier(0.55, 0, 0.1, 1);
- z-index: -1;
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%) scaleY(1) scaleX(1.25);
+  top: 100%;
+  width: 140%;
+  height: 180%;
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 50%;
+  display: block;
+  transition: all 0.5s 0.1s cubic-bezier(0.55, 0, 0.1, 1);
+  z-index: -1;
 }
 
 .post-button:after {
- content: "";
- position: absolute;
- left: 55%;
- transform: translateX(-50%) scaleY(1) scaleX(1.45);
- top: 180%;
- width: 160%;
- height: 190%;
- background-color: #5bc8ac;
- border-radius: 50%;
- display: block;
- transition: all 0.5s 0.1s cubic-bezier(0.55, 0, 0.1, 1);
- z-index: -1;
+  content: "";
+  position: absolute;
+  left: 55%;
+  transform: translateX(-50%) scaleY(1) scaleX(1.45);
+  top: 180%;
+  width: 160%;
+  height: 190%;
+  background-color: #5bc8ac;
+  border-radius: 50%;
+  display: block;
+  transition: all 0.5s 0.1s cubic-bezier(0.55, 0, 0.1, 1);
+  z-index: -1;
 }
 
 .post-button:hover {
- color: #ffffff;
- border: 1px solid #5bc8ac;
+  color: #ffffff;
+  border: 1px solid #5bc8ac;
 }
 
 .post-button:hover:before {
- top: -35%;
- background-color: #5bc8ac;
- transform: translateX(-50%) scaleY(1.3) scaleX(0.8);
+  top: -35%;
+  background-color: #5bc8ac;
+  transform: translateX(-50%) scaleY(1.3) scaleX(0.8);
 }
 
 .post-button:hover:after {
- top: -45%;
- background-color: #5bc8ac;
- transform: translateX(-50%) scaleY(1.3) scaleX(0.8);
+  top: -45%;
+  background-color: #5bc8ac;
+  transform: translateX(-50%) scaleY(1.3) scaleX(0.8);
 }
 </style>

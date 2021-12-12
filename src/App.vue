@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div v-if="isLoggin">
+    <div v-if="user.uid">
       ようこそ{{ $auth.currentUser.displayName }}さん
       <a @click="logOut" class="log-out-button"><span>Log Out</span></a>
       <router-link to="/post">
@@ -87,7 +87,6 @@ export default {
   data() {
     return {
       ActiveBtn: false,
-      isLoggin: false,
     }
   },
   computed: {
@@ -95,20 +94,7 @@ export default {
       return this.$auth.currentUser
     },
   },
-  // created(){
-  //       firebase.auth().onAuthStateChanged((user)=>{
-  //           if(user){
-  //               this.user=user
-  //           }else{
-  //               this.user=null
-  //           }
-  //       })
-  // },
-  // computed: {
-  //   user() {
-  //     return this.$auth.cuurentUser
-  //   },
-  // },
+  created() {},
   methods: {
     login() {
       const provider = new firebase.auth.GoogleAuthProvider()
@@ -117,19 +103,10 @@ export default {
         .signInWithPopup(provider)
         .then((result) => {
           console.log({ result })
-          if (result.user) {
-            this.isLoggin = true
-            // $router.push("/About");
-          }
         })
     },
     logOut() {
-      firebase
-        .auth()
-        .signOut()
-        .then(() => {
-          this.isLoggin = false
-        })
+      firebase.auth().signOut().then()
       location.reload(true)
     },
   },

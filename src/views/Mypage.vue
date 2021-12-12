@@ -1,8 +1,6 @@
 <template>
   <div id="app">
-    <h1>Mypage</h1>
     <h2>自分の投稿一覧</h2>
-    <p>自分が投稿した内容を確認できます</p>
     <div id="feas-sort-menu">
       <div class="feas-sort-price">
         <p class="midashi">金額で並び替え</p>
@@ -813,4 +811,48 @@ export default {
   text-decoration: none;
   font-weight: bold;
 }
+.slide {
+  position: relative;
+  width: 100%;
+  height: 400px;
+  overflow: hidden;
+}
+ 
+@keyframes slideshow{
+  0%{
+    opacity: 0;
+  }
+  10%{
+    opacity: 1;
+  }
+  28%{
+    opacity: 1
+  }
+  38%{
+    opacity: 1;
+  }
+  100%{
+    opacity: 1;
+  }
+}
+ 
+.slide img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: auto;
+  opacity: 0;
+  animation :slideshow 8s linear infinite;
+}
+ 
+.slide img:nth-child(2){
+  animation-delay: 8s;
+}
+ 
+.slide img:last-child{
+  animation-delay: 8s;
+}
+ 
 </style>

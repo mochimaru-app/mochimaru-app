@@ -13,7 +13,6 @@
             v-model="facility"
           />
         </div>
-        
 
         <div class="Form-Item">
           <p class="Form-Item-Label">
@@ -457,6 +456,7 @@ export default {
   max-width: 410px;
   background: #eaedf2;
   font-size: 18px;
+  border: 7px solid #59c98f;
 }
 @media screen and (max-width: 480px) {
   .Form-Item-Input {
@@ -486,6 +486,7 @@ export default {
   max-width: 410px;
   background: #eaedf2;
   font-size: 18px;
+  border: 7px solid #59c98f;
 }
 @media screen and (max-width: 480px) {
   .Form-Item-Textarea {
