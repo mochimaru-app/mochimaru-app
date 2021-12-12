@@ -47,7 +47,7 @@
               word-break: break-all;
               color: #333;
               box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-              background: url(https://stat.ameba.jp/user_images/20141029/18/wazameba/21/21/p/o0300030013113018942.png);
+              background-color: #5bc8ac;
               border-radius: 10px;
             "
           >
@@ -60,7 +60,7 @@
             >
               <div
                 style="
-                  border: 2px dashed #cbdcf6;
+                  border: 2px dashed #5bc8ac;
                   border-radius: 5px;
                   padding: 10px;
                 "
@@ -92,6 +92,7 @@
                             lat: postData.lat,
                           },
                         }"
+                        style="text-decoration: none"
                       >
                         <p class="addres">{{ postData.address }}</p>
                       </router-link>
@@ -159,8 +160,9 @@
                         postId: postData.id,
                       },
                     }"
+                    style="text-decoration :none;"
                   >
-                    <a class="edit_button" @click="editButton(index)"> Edit </a>
+                    <a class="edit_button" @click="editButton(index)" style=""> Edit </a>
                   </router-link>
                 </div>
               </div>
@@ -883,7 +885,7 @@ label input:checked ~ a img {
 .edit_button {
   display: block;
   position: relative;
-  margin-left: 10px;
+  margin-right: 10px;
   width: 160px;
   padding: 0.8em;
   text-align: center;
