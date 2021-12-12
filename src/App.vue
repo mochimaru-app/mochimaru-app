@@ -2,7 +2,7 @@
   <div id="app">
     <div v-if="user.uid">
       ようこそ{{ $auth.currentUser.displayName }}さん
-       <router-link to="/">
+       <router-link to="/" style="text-decoration: none">
       <a @click="logOut" class="log-out-button"><span>Log Out</span></a></router-link
       >
       <router-link to="/post">
@@ -12,7 +12,7 @@
       </router-link>
     </div>
     <div v-else>
-      <router-link to="/">
+      <router-link to="/" style="text-decoration: none">
         <a @click="login" class="log-in-button"
           ><span>Log In</span></a
         ></router-link
@@ -132,14 +132,13 @@ export default {
   text-align: center;
   text-decoration: none;
   background: #5bc8ad91;
-  color: #353535;
+  color: #7c7c7c;
   border-radius: 10px;
   font-weight: bold;
 }
 .log-out-button:hover {
   color: #5bc8ad91;
   background: #7c7c7c;
-  border: 1px solid #5bc8ad91;
   cursor: pointer;
   text-decoration: none;
   font-weight: bold;
@@ -161,7 +160,6 @@ export default {
 .log-in-button:hover {
   color: #5bc8ad91;
   background: #7c7c7c;
-  border: 1px solid #5bc8ad91;
   cursor: pointer;
   text-decoration: none;
   font-weight: bold;
