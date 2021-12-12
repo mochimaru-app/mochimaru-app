@@ -1,11 +1,13 @@
 <template>
   <div>
-    <h1>Map</h1>
-    <p>
-      Map上のピンにマウスをかざすと投稿内容が見られます<br />
-      気になるスポットを探して詳細を見てみよう！
-    </p>
-    <div ref="map" style="height: 100vh; width: auto"></div>
+    <div class="title-field">
+      <h1 class="title">Map</h1>
+      <p class="intro">
+        Map上のピンにマウスをかざすと投稿内容が見られます<br />
+        気になるスポットを探して詳細を見てみよう！
+      </p>
+    </div>
+    <div ref="map" style="height: 100vh; width: auto" class="map"></div>
   </div>
 </template>
 
@@ -90,3 +92,21 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.title-field {
+  background-image: url(../../public/back-img.png);
+  background-repeat: repeat;
+  background-color: rgba(255, 255, 255, 0.7);
+  background-blend-mode: lighten;
+}
+.title {
+  padding-top: 1.5rem;
+}
+.intro {
+  padding-bottom: 1.5rem;
+}
+.map {
+  margin-top: 5rem;
+}
+</style>

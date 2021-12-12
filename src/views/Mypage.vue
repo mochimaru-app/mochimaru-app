@@ -1,8 +1,10 @@
 <template>
   <div id="app">
-    <h1>Mypage</h1>
-    <h2>自分の投稿一覧</h2>
-    <p>自分の投稿を確認し、編集、削除できます</p>
+    <div class="title-field">
+      <h1 class="title">Mypage</h1>
+      <h2 class="sub-title">自分の投稿一覧</h2>
+      <p class="intro">自分の投稿を確認し、編集、削除できます</p>
+    </div>
     <div id="feas-sort-menu">
       <div class="feas-sort-price">
         <p class="midashi">金額で並び替え</p>
@@ -463,6 +465,22 @@ button:active {
   -ms-transform: translate(0px, 5px);
   transform: translate(0px, 5px);
   border-bottom: 1px solid #2ecc71;
+}
+.title-field {
+  background-image: url(../../public/back-img.png);
+  background-repeat: repeat;
+  background-color: rgba(255, 255, 255, 0.7);
+  background-blend-mode: lighten;
+}
+.title {
+  padding-top: 1.5rem;
+}
+.sub-title {
+  margin-bottom: 0;
+}
+.intro {
+  margin-top: 0;
+  padding-bottom: 1.5rem;
 }
 .stars {
   display: flex;

@@ -1,7 +1,9 @@
 <template>
   <div>
-    <h1>Post</h1>
-    <p>あなたのおすすめスポットを投稿して共有しよう！</p>
+    <div class="title-field">
+      <h1 class="title">Post</h1>
+      <p class="intro">あなたのおすすめスポットを投稿して共有しよう！</p>
+    </div>
     <div class="Form">
       <div class="Form-Item">
         <p class="Form-Item-Label">
@@ -414,6 +416,18 @@ export default {
 </script>
 
 <style scoped>
+.title-field {
+  background-image: url(../../public/back-img.png);
+  background-repeat: repeat;
+  background-color: rgba(255, 255, 255, 0.7);
+  background-blend-mode: lighten;
+}
+.title {
+  padding-top: 1.5rem;
+}
+.intro {
+  padding-bottom: 1.5rem;
+}
 .stars {
   display: flex;
   flex-direction: row-reverse;
