@@ -57,8 +57,33 @@
             </div>
             <div class="tabContents">
               <div v-if="isActive === '1'">
-                <div v-for="(avatar, index) in postData.avatars" :key="index">
-                  <img class="img" :src="avatar" alt="画像・地図" />
+                <div class="out">
+                  <img src="" alt="" class="back"/>
+                  <div class="in">
+                    <div
+                      v-for="(avatar, index) in postData.avatars"
+                      :key="index"
+                    >
+                      <div v-if="index === 0">
+                        <label>
+                          <input type="radio" name="slide" checked />
+                          <span></span>
+                          <a href="#0">
+                            <img :src="avatar" alt="画像・地図" />
+                          </a>
+                        </label>
+                      </div>
+                      <div v-else>
+                        <label>
+                          <input type="radio" name="slide" />
+                          <span></span>
+                          <a href="#index">
+                            <img :src="avatar" alt="画像・地図" />
+                          </a>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div v-else-if="isActive === '2'">マップが表示されるよ～</div>
@@ -174,12 +199,64 @@ export default {
   width: 100%;
   padding: 20px;
 }
-.img {
+.out {
+  position: relative;
+  margin-top: 50px;
+}
+.back {
+  height: 220px;
+}
+.in {
+  display: flex;
+  justify-content: center;
+}
+.in img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  transition: 0.3s;
+}
+img {
+  display: block;
+  margin: 0 10%;
   width: 80%;
-  height: 80%;
-  padding: 10%;
+  height: 100%;
+}
+input {
+  display: none;
+}
+label span {
+  display: block;
+  width: 15px;
+  height: 15px;
+  padding: 7px;
+  margin: -40px 0 0 0;
+  border-radius: 100%;
+  cursor: pointer;
+  position: relative;
+  z-index: 2;
+}
+label span::before {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: #00ffbf;
+  opacity: 0.5;
+  border-radius: 100%;
 }
 
+label input:checked + span::before {
+  background: #000;
+  opacity: 1;
+}
+
+label input:checked ~ img,
+label input:checked ~ a img {
+  opacity: 1;
+  z-index: 1;
+}
 .like-btn {
   width: 25px;
   height: 30px;
