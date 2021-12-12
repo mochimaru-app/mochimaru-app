@@ -853,7 +853,6 @@ label input:checked ~ a img {
 .delete_button:hover {
   color: #5bc8ad91;
   background: #7c7c7c;
-  border: 1px solid #5bc8ad91;
   cursor: pointer;
   text-decoration: none;
   font-weight: bold;
@@ -875,7 +874,6 @@ label input:checked ~ a img {
 .edit_button:hover {
   color: #5bc8ad91;
   background: #7c7c7c;
-  border: 1px solid #5bc8ad91;
   cursor: pointer;
   text-decoration: none;
   font-weight: bold;
@@ -907,12 +905,10 @@ label input:checked ~ a img {
   background: #5bc8ad91;
   color: #7c7c7c;
   border-radius: 10px;
-  font-weight: bold;
 }
 .addres:hover {
   color: #5bc8ad91;
   background: #7c7c7c;
-  border: 1px solid #5bc8ad91;
   cursor: pointer;
   text-decoration: none;
   font-weight: bold;
